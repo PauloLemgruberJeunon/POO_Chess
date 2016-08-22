@@ -11,7 +11,6 @@ import poo_chess.Color;
 import poo_chess.Position;
 import poo_chess.controller.field.Board;
 import poo_chess.controller.field.Square;
-import poo_chess.controller.ChessUtils;
 
 /**
  *
@@ -67,6 +66,19 @@ public class King extends Piece{
             }
         }
 
-        this.movablePositions = ChessUtils.KingMovementChecker(this.advPieces, tmpList);
+        this.movablePositions = this.KingMovementChecker(this.advPieces, tmpList);
+    }
+    
+    private List<Position> KingMovementChecker(List<Piece> advPieces, List<Position> kingMovablePosList){
+        
+        for(Piece piece : advPieces){
+            for(Position pos : piece.getMovablePositions()){
+                if(kingMovablePosList.contains(pos)){
+                    kingMovablePosList.remove(pos);
+                }
+            }
+        }
+        
+        return kingMovablePosList;
     }
 }

@@ -34,7 +34,7 @@ public class Player {
         
         
         
-        System.out.println("\n\n Turn of player " + this.name);
+        System.out.println("\n\n Turn of player: " + this.name);
         
         while(true){
             

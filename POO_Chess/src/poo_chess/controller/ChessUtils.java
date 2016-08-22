@@ -13,20 +13,7 @@ import poo_chess.Position;
  *
  * @author paulojeunon
  */
-public final class ChessUtils {
-    
-    public static List<Position> KingMovementChecker(List<Piece> advPieces, List<Position> kingMovablePosList){
-        
-        for(Piece piece : advPieces){
-            for(Position pos : piece.getMovablePositions()){
-                if(kingMovablePosList.contains(pos)){
-                    kingMovablePosList.remove(pos);
-                }
-            }
-        }
-        
-        return kingMovablePosList;
-    } 
+public final class ChessUtils { 
     
     public static List<Piece> isKingInCheck(Position kingPos, List<Piece> enemyArmy){
         

@@ -41,7 +41,8 @@ public class Queen extends Piece {
         // This loop starts from the right side of the piece and goes adding the squares util it hits a occupied square
         for(int i = myHorizontalPos+1; i < 8; i++){
             Position tmp = new Position(myVerticalPos, i);
-            if(tmp.isValid() && board.getSquare(tmp).getPieceAbovaMe() == null){
+            if(tmp.isValid() && (board.getSquare(tmp).getPieceAbovaMe() == null || 
+                    board.getSquare(tmp).getPieceAbovaMe().getColor() != this.color)){
                 tmpList.add(tmp);
             } else {
                 break;
@@ -51,7 +52,8 @@ public class Queen extends Piece {
         // This loop starts from the left side of the piece and goes adding the squares util it hits a occupied square
         for(int i = myHorizontalPos-1; i > -1; i--){
             Position tmp = new Position(myVerticalPos, i);
-            if(tmp.isValid() && board.getSquare(tmp).getPieceAbovaMe() == null){
+            if(tmp.isValid() && (board.getSquare(tmp).getPieceAbovaMe() == null || 
+                    board.getSquare(tmp).getPieceAbovaMe().getColor() != this.color)){
                 tmpList.add(tmp);
             } else {
                 break;
@@ -61,7 +63,8 @@ public class Queen extends Piece {
         // This loop starts from the upper side of the piece and goes adding the squares util it hits a occupied square
         for(int i = myVerticalPos-1; i > -1; i--){
             Position tmp = new Position(i, myHorizontalPos);
-            if(tmp.isValid() && board.getSquare(tmp).getPieceAbovaMe() == null){
+            if(tmp.isValid() && (board.getSquare(tmp).getPieceAbovaMe() == null || 
+                    board.getSquare(tmp).getPieceAbovaMe().getColor() != this.color)){
                 tmpList.add(tmp);
             } else {
                 break;
@@ -71,7 +74,8 @@ public class Queen extends Piece {
         // This loop starts from the bottom side of the piece and goes adding the squares util it hits a occupied square
         for(int i = myVerticalPos+1; i < 8; i++){
             Position tmp = new Position(i, myHorizontalPos);
-            if(tmp.isValid() && board.getSquare(tmp).getPieceAbovaMe() == null){
+            if(tmp.isValid() && (board.getSquare(tmp).getPieceAbovaMe() == null || 
+                    board.getSquare(tmp).getPieceAbovaMe().getColor() != this.color)){
                 tmpList.add(tmp);
             } else {
                 break;

@@ -6,8 +6,6 @@
 package poo_chess;
 import poo_chess.controller.Chess;
 
-import poo_chess.controller.Piece;
-
 /**
  *
  * @author paulojeunon
