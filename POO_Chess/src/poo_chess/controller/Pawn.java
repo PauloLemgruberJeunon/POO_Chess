@@ -53,7 +53,7 @@ public class Pawn extends Piece {
          // This loop adds the possible foward positions for the Pawn to go
         for(int i = 1; i < verticalMoves+1; i++){
             Position tmp = new Position((isUp? myVerticalPos - i : myVerticalPos + i), myHorizontalPos);
-            if(tmp.isValid() && board.getSquare(tmp).getPieceAbovaMe() == null){
+            if(tmp.getIsValid() && board.getSquare(tmp).getPieceAbovaMe() == null){
                 tmpList.add(tmp);
             }
         }
@@ -62,7 +62,7 @@ public class Pawn extends Piece {
         int newVerticalPos = isUp? myVerticalPos-1 : myVerticalPos+1;
         
         Position tmpTopRight = new Position(newVerticalPos, myHorizontalPos+1);
-        if(tmpTopRight.isValid()){
+        if(tmpTopRight.getIsValid()){
             Piece topRightPiece = board.getSquare(tmpTopRight).getPieceAbovaMe();
             
             // The logic is, if this position is valid, if it does not contain a piece above it and
@@ -73,7 +73,7 @@ public class Pawn extends Piece {
         }
         
         Position tmpTopLeft = new Position(newVerticalPos, myHorizontalPos-1);
-        if(tmpTopLeft.isValid()){
+        if(tmpTopLeft.getIsValid()){
             Piece topLeftPiece = board.getSquare(tmpTopLeft).getPieceAbovaMe();
             
             // The same thing as above, but for the left side in this case

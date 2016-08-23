@@ -7,6 +7,7 @@ package poo_chess.controller;
 import poo_chess.Color;
 import java.util.Scanner;
 import poo_chess.controller.field.Board;
+import poo_chess.Position;
 
 /**
  *
@@ -21,7 +22,7 @@ public class Chess {
     public Chess(){
         this.board = new Board();
         this.player1 = new Player(this.setPlayerName(1), "up", Color.BLACK, board);
-        this.player2 = new Player(this.setPlayerName(2), "down", Color.WHITE, board);
+        this.player2 = new Player(this.setPlayerName(2), "down", Color.WHITE, board);        
     }
     
     public void startChess(){
@@ -31,13 +32,29 @@ public class Chess {
         while(true){
             this.board.printBoard();
             
+            Player currPlayer;
+            Player advPlayer;
+            Piece selectedPiece;
+            Position goToPos;
+            
             if(counter % 2 == 0){
-                this.player1.myTurn();
+                currPlayer = this.player1;
+                advPlayer = this.player2;
             } else {
-                this.player2.myTurn();
+                currPlayer = this.player2;
+                advPlayer = this.player1;
             }
             
-            counter++;
+            selectedPiece = currPlayer.selectPiece();
+            goToPos = currPlayer.selectGoToPos(selectedPiece);
+            
+            boolean moveSuccessful = currPlayer.simulateMovement(selectedPiece, goToPos, advPlayer.getMyArmy());
+            
+            if(moveSuccessful){
+                counter++;
+            } else {
+                System.out.printf("\n\n Your move will let the piece in check, try again");
+            }
             
             if(counter > 10){
                 break;

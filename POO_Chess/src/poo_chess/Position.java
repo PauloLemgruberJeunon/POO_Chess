@@ -20,6 +20,12 @@ public class Position {
         this.horizontalPos = horizontalPos;
         this.isValid = this.thisPositionExists();
     }
+    
+    public Position(Position pos){
+        this.verticalPos = pos.getVerticalCoordinate();
+        this.horizontalPos = pos.getHorizontalCoordinate();
+        this.isValid = pos.getIsValid();
+    }
 
     public int getVerticalCoordinate(){
         return verticalPos;
@@ -29,7 +35,7 @@ public class Position {
         return horizontalPos;
     }
     
-    public boolean isValid(){
+    public boolean getIsValid(){
         return this.isValid;
     }
     

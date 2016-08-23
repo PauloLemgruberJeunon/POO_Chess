@@ -64,7 +64,7 @@ public class Knight extends Piece {
         
         // goes throught the possible positions vectors adding them to the tmpList that stores the valids posistions that this knight can go
         for(int i = 0; i < 8; i++){
-            if(posVec[i].isValid()){
+            if(posVec[i].getIsValid()){
                 tmpList.add(posVec[i]);
             }
         }

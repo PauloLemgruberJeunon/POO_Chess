@@ -18,7 +18,7 @@ import poo_chess.controller.field.Board;
  */
 public class PlayerUtils {
     
-    protected static List<Piece> placeMyArmyOnBoard(String side, Color color, Board board){
+    static List<Piece> placeArmyOnBoard(String side, Color color, Board board){
         
         List<Piece> pieces = new ArrayList<>();
         int i, j, upperLimit;
@@ -55,7 +55,7 @@ public class PlayerUtils {
         return pieces;
     }
     
-    public static Position enterCoordinates(String message){
+    static Position enterCoordinates(String message){
         
         Scanner reader = new Scanner(System.in);
         
@@ -66,4 +66,16 @@ public class PlayerUtils {
         return (new Position(i, j));
     }
     
+    public static boolean isKingInCheck(Position kingPos, List<Piece> enemyArmy){
+                
+        for(Piece enemy : enemyArmy){
+            for(Position pos : enemy.getMovablePositions()){
+                if(pos.equals(kingPos)){
+                    return true;
+                }
+            }
+        } 
+        
+        return false;
+    }
 }

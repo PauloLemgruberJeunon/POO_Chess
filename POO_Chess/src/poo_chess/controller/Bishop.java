@@ -70,7 +70,7 @@ public class Bishop extends Piece {
             }
             
             Position pos = new Position(myVerticalPos+counterUpDown, myHorizontalPos+counterLeftRight);
-            if(pos.isValid() && this.board.getSquare(pos).getPieceAbovaMe() == null){
+            if(pos.getIsValid() && this.board.getSquare(pos).getPieceAbovaMe() == null){
                 tmpList.add(pos);
             } else { // Resets the counters 
                 

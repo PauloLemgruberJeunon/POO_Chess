@@ -22,6 +22,10 @@ public class Board {
         this.boardSquares = this.makeBoard();
     }
     
+    public Board(Board bd){
+        this.boardSquares = new ArrayList<>(bd.boardSquares);
+    }
+    
     // Construct the board with all of its squares 
     private List<Square> makeBoard(){
         List<Square> squareList = new ArrayList<>();
@@ -40,7 +44,7 @@ public class Board {
     // Get the square based on its position
     // TODO: make a Hash table for direct search since the coordinates of each square are unique
     public Square getSquare(Position position){
-        if(position.isValid() == false){
+        if(position.getIsValid() == false){
             System.out.printf("[WARNING] You have sent an invalid Position: ");
             position.printPos();
         }

@@ -56,18 +56,41 @@ abstract public class Piece{
             // Refresh the position of the piece
             this.mySquare = mvToThisSquare;
             
-            Piece pieceAboveMe = this.mySquare.getPieceAbovaMe();
+            Piece pieceAboveMe = mvToThisSquare.getPieceAbovaMe();
             // Checks if there is an enemy on the position that you moved to
             if(pieceAboveMe != null && pieceAboveMe.color != this.color){
-                if(pieceAboveMe.color != this.color){
-                    this.killEnemy(pieceAboveMe);
-                } else {
-                    System.out.println("\n\n [WARNING] The movable position can not be one with our piece... ");
-                    return;
-                }
+                this.killEnemy(pieceAboveMe);
             }
+            
             this.mySquare.setPieceAboveMe(this);
         }
+    }
+    
+    protected void forceMovePiece(Square previusSquare, Player player){
+        
+        if(player.getMyColor() != this.color){
+            System.out.printf("\n\n [ACCESS DENIED] Only the owner of the piece can force move it...");
+            return;
+        } 
+        
+        this.mySquare.clearPieceAboveMe();
+        this.mySquare = previusSquare;
+        this.mySquare.setPieceAboveMe(this);
+    }
+    
+    protected void revivePiece(Piece killedEnemy, Player player){
+        
+        if(player.getMyColor() == this.color){
+            System.out.printf("\n\n [ACCESS DENIED] Only the enemy of the piece can revive it...");
+            return;
+        }
+        
+        this.revive();
+        this.mySquare.setPieceAboveMe(this);
+    }
+    
+    private void revive(){
+        this.killed = false;
     }
     
     public Color getColor(){
