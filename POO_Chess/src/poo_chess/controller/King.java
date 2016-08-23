@@ -17,26 +17,9 @@ import poo_chess.controller.field.Square;
  * @author paulojeunon
  */
 public class King extends Piece{
-    
-    private final List<Piece> advPieces;
-    
+        
     public King(Color color, Square square, String direction, Board board) {
         super(color, square, direction, board);
-        
-        this.advPieces = this.getAdvPieces();
-    }
-    
-    private List<Piece> getAdvPieces(){
-        List<Piece> tmpList = new ArrayList<>();
-        
-        for(Square sqr : this.board.getSquareList()){
-            Piece piece = sqr.getPieceAbovaMe();
-            if(piece != null && piece.getColor() != this.color){
-                tmpList.add(piece);
-            }
-        }
-        
-        return tmpList;
     }
     
     @Override
@@ -66,19 +49,7 @@ public class King extends Piece{
             }
         }
 
-        this.movablePositions = this.KingMovementChecker(this.advPieces, tmpList);
+        this.movablePositions = tmpList;
     }
-    
-    private List<Position> KingMovementChecker(List<Piece> advPieces, List<Position> kingMovablePosList){
-        
-        for(Piece piece : advPieces){
-            for(Position pos : piece.getMovablePositions()){
-                if(kingMovablePosList.contains(pos)){
-                    kingMovablePosList.remove(pos);
-                }
-            }
-        }
-        
-        return kingMovablePosList;
-    }
+   
 }

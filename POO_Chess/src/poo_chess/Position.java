@@ -10,14 +10,16 @@ package poo_chess;
  * @author paulojeunon
  * This class stores the coordinates of a chess board
  */
-public class Position {
+public final class Position {
     private final int verticalPos;
     private final int horizontalPos;
+    private final float hashKey;
     private final boolean isValid;
     
     public Position(int verticalPos, int horizontalPos){
         this.verticalPos = verticalPos;
         this.horizontalPos = horizontalPos;
+        this.hashKey = this.getPosKey();
         this.isValid = this.thisPositionExists();
     }
     
@@ -25,10 +27,23 @@ public class Position {
         this.verticalPos = pos.getVerticalCoordinate();
         this.horizontalPos = pos.getHorizontalCoordinate();
         this.isValid = pos.getIsValid();
+        this.hashKey = pos.hashKey;
+    }
+    
+    public float getKey(){
+        return this.hashKey;
+    }
+    
+    public static float getKeyByCoords(float vertical, float horizontal){
+        return ((vertical*1.7f)+(horizontal*2.3f));
     }
 
     public int getVerticalCoordinate(){
         return verticalPos;
+    }
+    
+    private float getPosKey(){
+        return (((float)this.verticalPos*1.7f)+((float)this.horizontalPos*2.3f));
     }
     
     public int getHorizontalCoordinate(){

@@ -16,47 +16,52 @@ import poo_chess.Color;
 public class Board {
     
     private static final int BOARDSIZE = 8;
-    private final List<Square> boardSquares;
+    private final HashMap boardSquares;
     
     public Board(){
         this.boardSquares = this.makeBoard();
     }
     
-    public Board(Board bd){
-        this.boardSquares = new ArrayList<>(bd.boardSquares);
-    }
-    
     // Construct the board with all of its squares 
-    private List<Square> makeBoard(){
-        List<Square> squareList = new ArrayList<>();
+    private HashMap makeBoard(){
+        HashMap squareMap = new HashMap();
         int colorCounter = 0;
         Color color;
         for(int i = 0; i < BOARDSIZE; i++){
             for(int j = 0; j < BOARDSIZE; j++, colorCounter++){
                 color = colorCounter % 2 == 0 ? Color.WHITE : Color.BLACK;
-                squareList.add(new Square(color, new Position(i, j)));
+                Position pos = new Position(i, j);
+                squareMap.put(pos.getKey(), new Square(color, pos));
             }
         }
         
-        return squareList;
+        return squareMap;
     }
     
     // Get the square based on its position
     // TODO: make a Hash table for direct search since the coordinates of each square are unique
     public Square getSquare(Position position){
-        if(position.getIsValid() == false){
-            System.out.printf("[WARNING] You have sent an invalid Position: ");
-            position.printPos();
+        float key = position.getKey();
+        Square tmp = (Square)this.boardSquares.get(key);
+        if(tmp == null){
+            System.out.printf("\n\n Did not find the peice returning null...");
         }
-        for(Square sqr : this.boardSquares){
-            if(sqr.getMyPosition().equals(position)){
-                return sqr;
-            }
-        }
-        return null;
+        
+        return tmp;
     }
     
-    public List<Square> getSquareList(){
+    public Square getSquare(float vertical, float horizontal){
+        
+        float key = Position.getKeyByCoords(vertical, horizontal);
+        Square tmp = (Square)this.boardSquares.get(key);
+        if(tmp == null){
+            System.out.printf("\n\n Did not find the peice returning null...");
+        }
+        
+        return tmp;
+    }
+    
+    public HashMap getSquareHash(){
         return this.boardSquares;
     }
     

@@ -94,6 +94,17 @@ public class Player {
         return (isKingInCheck == false);
     }
     
+    protected boolean isCheckMate(List<Piece> enemyArmy){
+        for(Piece currPiece : this.myArmy){
+            for(Position goToPos : currPiece.getMovablePositions()){
+                if(this.simulateMovement(currPiece, goToPos, enemyArmy)){
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+    
     private void undoPlay(Piece myPiece, Piece killedPiece, Position originalPos){
         myPiece.forceMovePiece(board.getSquare(originalPos), this);
         
