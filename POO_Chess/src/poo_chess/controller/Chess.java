@@ -37,6 +37,7 @@ public class Chess {
             Piece selectedPiece;
             Position goToPos;
             
+            // calculates the turns
             if(counter % 2 == 0){
                 currPlayer = this.player1;
                 advPlayer = this.player2;
@@ -45,18 +46,30 @@ public class Chess {
                 advPlayer = this.player1;
             }
             
-            selectedPiece = currPlayer.selectPiece();
-            goToPos = currPlayer.selectGoToPos(selectedPiece);
+            System.out.printf("\n\n Turn of player: " + currPlayer.getName());
             
+            while(true){
+                selectedPiece = currPlayer.selectPiece();
+                goToPos = currPlayer.selectGoToPos(selectedPiece);
+                
+                if(goToPos != null){
+                    break;
+                }
+            }
+                
             boolean moveSuccessful = currPlayer.simulateMovement(selectedPiece, goToPos, advPlayer.getMyArmy());
+            boolean isCheckMate = false;
             
             if(moveSuccessful){
+                isCheckMate = advPlayer.isCheckMate(currPlayer.getMyArmy());
+                System.out.printf("\n\n moveSuccessful");
                 counter++;
             } else {
                 System.out.printf("\n\n Your move will let the piece in check, try again");
             }
             
-            if(counter > 10){
+            if(isCheckMate){
+                System.out.printf("\n\n Checkmate: " + currPlayer.getName() + " has won the game!!!");
                 break;
             }
         }

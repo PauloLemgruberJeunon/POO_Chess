@@ -50,6 +50,9 @@ abstract public class Piece{
         if(this.movablePositions.contains(mvToThisSquare.getMyPosition()) == false){
             System.out.println("\n\n [WARNING] This Piece can not move to the asked position, this should be checked before... ");
         } else {
+            // if the piece is a pawn will set it's variable "first move" to false, if it's not, wont do nothing
+            pieceHasMoved();
+            
             // clear the pointer of the previus square to this peice 
             this.mySquare.clearPieceAboveMe();
             
@@ -89,6 +92,12 @@ abstract public class Piece{
         this.mySquare.setPieceAboveMe(this);
     }
     
+    public void setMovablePosHighlightValue(boolean value){
+        for(Position pos : this.movablePositions){
+            board.getSquare(pos).setHighlighted(value);
+        }
+    }
+    
     private void revive(){
         this.killed = false;
     }
@@ -100,6 +109,8 @@ abstract public class Piece{
     public boolean isKilled(){
         return this.killed;
     }
+    
+    public void pieceHasMoved(){}
     
     protected abstract void refreshMovablePositions(Board board);
     

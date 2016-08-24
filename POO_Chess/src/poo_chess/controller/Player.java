@@ -38,6 +38,10 @@ public class Player {
     protected Color getMyColor(){
         return color;
     }
+    
+    public String getName(){
+        return this.name;
+    }
         
     protected Piece selectPiece(){
         
@@ -49,6 +53,7 @@ public class Player {
             if(pos.getIsValid() == false || pieceAbove == null || pieceAbove.getColor() != this.color){
                 System.out.printf("\n\n Invalid pos selection");
             } else {
+                pieceAbove.setMovablePosHighlightValue(true);
                 break;
             }
         }
@@ -57,14 +62,12 @@ public class Player {
     
     protected Position selectGoToPos(Piece piece){
         Position goToPos;
-        while(true){
-            String message = "\n\n Enter the wanted goTo position (verticalCoord, horizontalCoord):  ";
-            goToPos = PlayerUtils.enterCoordinates(message);
-            if((goToPos.getIsValid() && piece.getMovablePositions().contains(goToPos)) == false){
-                System.out.printf("\n\n You enter an invalid position or a not movable position, try again...");
-            } else {
-                break;
-            }
+        
+        String message = "\n\n Enter the wanted goTo position (verticalCoord, horizontalCoord):  ";
+        goToPos = PlayerUtils.enterCoordinates(message);
+        if((goToPos.getIsValid() && piece.getMovablePositions().contains(goToPos)) == false){
+            System.out.printf("\n\n You enter an invalid position or a not movable position, try again...");
+            piece.setMovablePosHighlightValue(false);
         }
         
         return goToPos;
@@ -75,20 +78,36 @@ public class Player {
         piece.movePiece(squareToMove);
     }
     
+    /**
+     *
+     * @param myPiece
+     * @param goToPos
+     * @param enemyArmy
+     * @return : returns if the simulation went right and then if the movement could be completed
+     * This function has the objective to make the movement and then calculate if this will let the king in a
+     * check position
+     */
     protected boolean simulateMovement(Piece myPiece, Position goToPos, List<Piece> enemyArmy){
+        
+        // Stores the current state
         Position originalPos = myPiece.mySquare.getMyPosition();
         Piece killedPiece = board.getSquare(goToPos).getPieceAbovaMe();
         
+        // See if the king is the piece selected (little "gambiarra")
+        boolean kingSelected = originalPos.equals(this.myKingPos);
+        
+        // make the simulated move to do the verification
         this.movePieceToPosition(myPiece, goToPos);
         
-        boolean isKingInCheck = PlayerUtils.isKingInCheck(this.myKingPos, enemyArmy);
+        // Check if the king is in check
+        boolean isKingInCheck = PlayerUtils.isKingInCheck(kingSelected? goToPos : this.myKingPos, enemyArmy);
         
         if(isKingInCheck){
+            // if the movement done let the king in check it has to be undone
             this.undoPlay(myPiece, killedPiece, originalPos);
-        } else {
-            if(originalPos.equals(this.myKingPos)){
-                this.myKingPos = goToPos;
-            }
+        } else if(kingSelected){
+            // refreshes the king position if it had moved  
+            this.myKingPos = goToPos;
         }
         
         return (isKingInCheck == false);

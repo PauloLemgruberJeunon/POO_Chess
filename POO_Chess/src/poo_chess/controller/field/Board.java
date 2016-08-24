@@ -16,6 +16,7 @@ import poo_chess.Color;
 public class Board {
     
     private static final int BOARDSIZE = 8;
+    //has a hashMap to store all of the board squares for direct access
     private final HashMap boardSquares;
     
     public Board(){
@@ -50,6 +51,7 @@ public class Board {
         return tmp;
     }
     
+    // Get a square from the board by inserting the coordinates from the board 
     public Square getSquare(float vertical, float horizontal){
         
         float key = Position.getKeyByCoords(vertical, horizontal);

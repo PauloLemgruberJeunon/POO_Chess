@@ -68,7 +68,9 @@ public class PlayerUtils {
     
     public static boolean isKingInCheck(Position kingPos, List<Piece> enemyArmy){
                 
+        // iterates over all the enemy pieces
         for(Piece enemy : enemyArmy){
+            // for each enemy piece iterates over all it's movable positions
             for(Position pos : enemy.getMovablePositions()){
                 if(pos.equals(kingPos)){
                     return true;

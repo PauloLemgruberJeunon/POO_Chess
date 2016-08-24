@@ -12,7 +12,7 @@ import poo_chess.Position;
  *
  * @author paulojeunon
  */
-public class Square { // TODO: Implementar equals...
+public class Square {
     
     private final Color color;
     private final Position position;

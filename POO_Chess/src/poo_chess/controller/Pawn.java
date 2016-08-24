@@ -24,6 +24,11 @@ public class Pawn extends Piece {
     }
     
     @Override
+    public void pieceHasMoved(){
+        this.firstMove = false;
+    }
+    
+    @Override
     public String getPieceName(){
         return "PA";
     }
@@ -44,7 +49,6 @@ public class Pawn extends Piece {
         // stores the number of foward moves that the piece can make
         if(this.firstMove){
             verticalMoves = 2;
-            firstMove = false;
         } else {
             verticalMoves = 1;
         }
