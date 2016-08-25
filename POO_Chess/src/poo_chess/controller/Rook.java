@@ -30,8 +30,8 @@ public class Rook extends Piece{
         // empty list
         List<Position> tmpList = new ArrayList<>();
         
-        int myVerticalPos = this.mySquare.getMyPosition().getVerticalCoordinate();
-        int myHorizontalPos = this.mySquare.getMyPosition().getHorizontalCoordinate();
+        int myVerticalPos = this.getSquare().getMyPosition().getVerticalCoordinate();
+        int myHorizontalPos = this.getSquare().getMyPosition().getHorizontalCoordinate();
         
         // This loop starts from the right side of the piece and goes adding the squares util it hits a occupied square
         for(int i = myHorizontalPos+1; i < 8; i++){

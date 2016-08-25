@@ -31,8 +31,8 @@ public class King extends Piece{
     protected void refreshMovablePositions(Board board){
         
         // Stores the current Pos of the Knight 
-        int myVerticalPos = this.mySquare.getMyPosition().getVerticalCoordinate();
-        int myHorizontalPos = this.mySquare.getMyPosition().getHorizontalCoordinate();
+        int myVerticalPos = this.getSquare().getMyPosition().getVerticalCoordinate();
+        int myHorizontalPos = this.getSquare().getMyPosition().getHorizontalCoordinate();
         
         // Stores the possible positions that the knight can go
         List<Position> tmpList = new ArrayList<>();

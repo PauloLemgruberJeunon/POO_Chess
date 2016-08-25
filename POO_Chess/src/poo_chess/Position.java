@@ -85,6 +85,6 @@ public final class Position {
     
     // Prints the position
     public void printPos(){
-        System.out.printf("(" + this.verticalPos + ", " + this.horizontalPos + ")");
+        System.out.printf("\n\n (" + this.verticalPos + ", " + this.horizontalPos + ")");
     }
 }

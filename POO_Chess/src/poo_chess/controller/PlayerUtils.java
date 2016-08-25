@@ -71,7 +71,7 @@ public class PlayerUtils {
         // iterates over all the enemy pieces
         for(Piece enemy : enemyArmy){
             // for each enemy piece iterates over all it's movable positions
-            for(Position pos : enemy.getMovablePositions()){
+            for(Position pos : enemy.getMovablePositionsWithRefresh()){
                 if(pos.equals(kingPos)){
                     return true;
                 }

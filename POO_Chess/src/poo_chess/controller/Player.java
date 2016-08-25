@@ -53,73 +53,79 @@ public class Player {
             if(pos.getIsValid() == false || pieceAbove == null || pieceAbove.getColor() != this.color){
                 System.out.printf("\n\n Invalid pos selection");
             } else {
-                pieceAbove.setMovablePosHighlightValue(true);
+                pieceAbove.refreshMovablePositions(board);
                 break;
             }
         }
         return pieceAbove;
     }
     
-    protected Position selectGoToPos(Piece piece){
+    protected Position selectGoToPos(Piece piece, List<Position> movablePos){
         Position goToPos;
         
         String message = "\n\n Enter the wanted goTo position (verticalCoord, horizontalCoord):  ";
         goToPos = PlayerUtils.enterCoordinates(message);
-        if((goToPos.getIsValid() && piece.getMovablePositions().contains(goToPos)) == false){
+        if((goToPos.getIsValid() && movablePos.contains(goToPos)) == false){
             System.out.printf("\n\n You enter an invalid position or a not movable position, try again...");
+            goToPos = null;
             piece.setMovablePosHighlightValue(false);
         }
         
         return goToPos;
     }
     
-    protected void movePieceToPosition(Piece piece, Position pos){
+    protected void movePieceToPosition(Piece piece, Position pos, boolean simulatedMove){
         Square squareToMove = this.board.getSquare(pos);
-        piece.movePiece(squareToMove);
+        piece.movePiece(squareToMove, simulatedMove);
     }
     
     /**
      *
      * @param myPiece
-     * @param goToPos
      * @param enemyArmy
-     * @return : returns if the simulation went right and then if the movement could be completed
-     * This function has the objective to make the movement and then calculate if this will let the king in a
+     * @param movablePos
+     * @return 
+     *  This function has the objective to make the movements and then calculate if this will let the king in a
      * check position
-     */
-    protected boolean simulateMovement(Piece myPiece, Position goToPos, List<Piece> enemyArmy){
+     **/    
+    protected boolean simulateMovement(Piece myPiece, List<Position> movablePos, List<Piece> enemyArmy){
         
-        // Stores the current state
-        Position originalPos = myPiece.mySquare.getMyPosition();
-        Piece killedPiece = board.getSquare(goToPos).getPieceAbovaMe();
+        boolean hasNonCheckMove = false;
         
-        // See if the king is the piece selected (little "gambiarra")
+        Position originalPos = myPiece.getSquare().getMyPosition();
+        
+        // See if the king is the selected piece (little "gambiarra")
         boolean kingSelected = originalPos.equals(this.myKingPos);
         
-        // make the simulated move to do the verification
-        this.movePieceToPosition(myPiece, goToPos);
-        
-        // Check if the king is in check
-        boolean isKingInCheck = PlayerUtils.isKingInCheck(kingSelected? goToPos : this.myKingPos, enemyArmy);
-        
-        if(isKingInCheck){
-            // if the movement done let the king in check it has to be undone
+        for(Position goToPos : movablePos){
+            
+            // Stores the current state
+            Piece killedPiece = board.getSquare(goToPos).getPieceAbovaMe();
+
+            // make the simulated move to do the verification
+            this.movePieceToPosition(myPiece, goToPos, true);
+
+            // Check if the king is in check
+            boolean isKingInCheck = PlayerUtils.isKingInCheck(kingSelected? goToPos : this.myKingPos, enemyArmy);
+
             this.undoPlay(myPiece, killedPiece, originalPos);
-        } else if(kingSelected){
-            // refreshes the king position if it had moved  
-            this.myKingPos = goToPos;
+                                    
+            if(isKingInCheck){
+                movablePos.remove(goToPos);
+            } else {
+                hasNonCheckMove = true;
+            }
         }
         
-        return (isKingInCheck == false);
+        return hasNonCheckMove;
     }
     
-    protected boolean isCheckMate(List<Piece> enemyArmy){
+    protected boolean isCheckMate(Piece selectedPiece, List<Piece> enemyArmy){
         for(Piece currPiece : this.myArmy){
-            for(Position goToPos : currPiece.getMovablePositions()){
-                if(this.simulateMovement(currPiece, goToPos, enemyArmy)){
-                    return false;
-                }
-            }
+            if(selectedPiece != currPiece && 
+                    this.simulateMovement(currPiece, currPiece.getMovablePositionsWithRefresh(), enemyArmy)){
+                return false;
+            }   
         }
         return true;
     }
@@ -130,6 +136,14 @@ public class Player {
         if(killedPiece != null){
             killedPiece.revivePiece(killedPiece, this);
         }
+    }
+    
+    protected Position getKingPos(){
+        return this.myKingPos;
+    }
+    
+    protected void setKingPos(Position pos){
+        this.myKingPos = pos;
     }
     
 }

@@ -35,12 +35,13 @@ public class Pawn extends Piece {
     
     @Override
     protected void refreshMovablePositions(Board board){
+                
         // empty list
         List<Position> tmpList = new ArrayList<>();
         
         // int that will save the position that the VerticalCoordinate of the piece inside the vertex verticalVec
-        int myVerticalPos = this.mySquare.getMyPosition().getVerticalCoordinate();
-        int myHorizontalPos = this.mySquare.getMyPosition().getHorizontalCoordinate();
+        int myVerticalPos = this.getSquare().getMyPosition().getVerticalCoordinate();
+        int myHorizontalPos = this.getSquare().getMyPosition().getHorizontalCoordinate();
         
         // this variable saves the orientation that the piece will move, if its up you can assume that the piece will start at the botton
         boolean isUp = this.direction.equals("up");

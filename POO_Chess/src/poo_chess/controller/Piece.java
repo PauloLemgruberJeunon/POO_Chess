@@ -18,7 +18,7 @@ abstract public class Piece{
     protected final String direction;
     protected final Color color;
     private boolean killed;
-    protected Square mySquare;
+    private Square mySquare;
     protected List<Position> movablePositions;
     protected Board board;
     
@@ -29,6 +29,7 @@ abstract public class Piece{
         this.mySquare = mySquare;
         this.mySquare.setPieceAboveMe(this);
         this.board = board;
+        this.refreshMovablePositions(board);
     }
     
     protected void killEnemy(Piece enemy){
@@ -39,19 +40,29 @@ abstract public class Piece{
         this.killed = true;
     }
     
+    protected Square getSquare(){
+        return this.mySquare;
+    }
+    
     public List<Position> getMovablePositions(){
-        this.refreshMovablePositions(this.board);
+        return this.movablePositions;
+    }
+    
+    public List<Position> getMovablePositionsWithRefresh(){
+        this.refreshMovablePositions(board);
         return this.movablePositions;
     }
     
     // Method to move a peice to some position
-    protected void movePiece(Square mvToThisSquare){
+    protected void movePiece(Square mvToThisSquare, boolean simulatedMove){
         // Checks if the movement is valid
         if(this.movablePositions.contains(mvToThisSquare.getMyPosition()) == false){
             System.out.println("\n\n [WARNING] This Piece can not move to the asked position, this should be checked before... ");
         } else {
             // if the piece is a pawn will set it's variable "first move" to false, if it's not, wont do nothing
-            pieceHasMoved();
+            if(simulatedMove == false){
+                pieceHasMoved();
+            }
             
             // clear the pointer of the previus square to this peice 
             this.mySquare.clearPieceAboveMe();
@@ -111,7 +122,7 @@ abstract public class Piece{
     }
     
     public void pieceHasMoved(){}
-    
+        
     protected abstract void refreshMovablePositions(Board board);
     
     public abstract String getPieceName();

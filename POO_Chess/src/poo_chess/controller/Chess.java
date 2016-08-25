@@ -4,6 +4,7 @@
  * and open the template in the editor.
  */
 package poo_chess.controller;
+import java.util.List;
 import poo_chess.Color;
 import java.util.Scanner;
 import poo_chess.controller.field.Board;
@@ -48,25 +49,34 @@ public class Chess {
             
             System.out.printf("\n\n Turn of player: " + currPlayer.getName());
             
+            List<Position> movablePos;
+            
             while(true){
                 selectedPiece = currPlayer.selectPiece();
-                goToPos = currPlayer.selectGoToPos(selectedPiece);
+                movablePos = selectedPiece.getMovablePositions();
+                                
+                currPlayer.simulateMovement(selectedPiece, movablePos, advPlayer.getMyArmy());
                 
-                if(goToPos != null){
+                selectedPiece.setMovablePosHighlightValue(true);
+                
+                goToPos = currPlayer.selectGoToPos(selectedPiece, movablePos);
+                
+                if(goToPos != null){                    
                     break;
                 }
             }
-                
-            boolean moveSuccessful = currPlayer.simulateMovement(selectedPiece, goToPos, advPlayer.getMyArmy());
-            boolean isCheckMate = false;
             
-            if(moveSuccessful){
-                isCheckMate = advPlayer.isCheckMate(currPlayer.getMyArmy());
-                System.out.printf("\n\n moveSuccessful");
-                counter++;
-            } else {
-                System.out.printf("\n\n Your move will let the piece in check, try again");
+            if(selectedPiece.getSquare().getMyPosition().equals(currPlayer.getKingPos())){
+                currPlayer.setKingPos(goToPos);
             }
+            
+            currPlayer.movePieceToPosition(selectedPiece, goToPos, false);
+                            
+            long startTime = System.nanoTime();
+            boolean isCheckMate = advPlayer.isCheckMate(selectedPiece, currPlayer.getMyArmy());
+            long stopTime = System.nanoTime();
+            
+            counter++;
             
             if(isCheckMate){
                 System.out.printf("\n\n Checkmate: " + currPlayer.getName() + " has won the game!!!");
