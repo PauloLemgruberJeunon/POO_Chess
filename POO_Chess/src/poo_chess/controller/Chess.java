@@ -76,6 +76,8 @@ public class Chess {
             boolean isCheckMate = advPlayer.isCheckMate(selectedPiece, currPlayer.getMyArmy());
             long stopTime = System.nanoTime();
             
+            System.out.printf("\n\n execTime = " + ((stopTime - startTime)/1000000));
+            
             counter++;
             
             if(isCheckMate){
