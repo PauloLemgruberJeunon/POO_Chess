@@ -60,6 +60,18 @@ public class Player {
         return pieceAbove;
     }
     
+    protected Piece selectPiece(Position clickPos){
+        
+        Piece pieceAbove;
+        pieceAbove = board.getSquare(clickPos).getPieceAbovaMe();
+        if(clickPos.getIsValid() == false || pieceAbove == null || pieceAbove.getColor() != this.color){
+            return null;
+        } else {
+            pieceAbove.refreshMovablePositions(board);
+        }
+        return pieceAbove;
+    }
+    
     protected Position selectGoToPos(Piece piece, List<Position> movablePos){
         Position goToPos;
         
@@ -72,6 +84,15 @@ public class Player {
         }
         
         return goToPos;
+    }
+    
+    protected Position selectGoToPos(Piece piece, List<Position> movablePos, Position clickGoToPos){
+        if((clickGoToPos.getIsValid() && movablePos.contains(clickGoToPos)) == false){
+            piece.setMovablePosHighlightValue(false);
+            return null;
+        }
+        
+        return clickGoToPos;
     }
     
     protected void movePieceToPosition(Piece piece, Position pos, boolean simulatedMove){
@@ -97,7 +118,8 @@ public class Player {
         // See if the king is the selected piece (little "gambiarra")
         boolean kingSelected = originalPos.equals(this.myKingPos);
         
-        for(Position goToPos : movablePos){
+        for(int i = 0; i < movablePos.size(); i++) {
+            Position goToPos = movablePos.get(i);
             
             // Stores the current state
             Piece killedPiece = board.getSquare(goToPos).getPieceAbovaMe();
@@ -111,7 +133,8 @@ public class Player {
             this.undoPlay(myPiece, killedPiece, originalPos);
                                     
             if(isKingInCheck){
-                movablePos.remove(goToPos);
+                movablePos.remove(i);
+                i--;
             } else {
                 hasNonCheckMove = true;
             }

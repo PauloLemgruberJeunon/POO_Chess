@@ -11,6 +11,7 @@ import poo_chess.Color;
 import poo_chess.Position;
 import poo_chess.controller.field.Board;
 import poo_chess.controller.field.Square;
+import poo_chess.View.BoardUpdater;
 
 /**
  *
@@ -24,7 +25,7 @@ public class King extends Piece{
     
     @Override
     public String getPieceName(){
-        return "KI";
+        return "king";
     }
     
     @Override
@@ -50,6 +51,11 @@ public class King extends Piece{
         }
 
         this.movablePositions = tmpList;
+    }
+    
+    @Override
+    public void getImgPath() {
+        BoardUpdater.setCurrImgPath(this);
     }
    
 }

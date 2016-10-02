@@ -23,6 +23,11 @@ public final class Position {
         this.isValid = this.thisPositionExists();
     }
     
+    @Override
+    public String toString() {
+        return ("x = " + horizontalPos + " y = " + verticalPos);
+    }
+    
     public Position(Position pos){
         this.verticalPos = pos.getVerticalCoordinate();
         this.horizontalPos = pos.getHorizontalCoordinate();

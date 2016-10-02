@@ -45,9 +45,9 @@ public class PlayerUtils {
                 } else if(j == 2 || j == 5){
                     pieces.add(new Bishop(color, board.getSquare(new Position(i, j)), direction, board));
                 }  else if(j == 3){
-                    pieces.add(new King(color, board.getSquare(new Position(i, j)), direction, board));
-                } else if(j == 4){
                     pieces.add(new Queen(color, board.getSquare(new Position(i, j)), direction, board));
+                } else if(j == 4){
+                    pieces.add(new King(color, board.getSquare(new Position(i, j)), direction, board));
                 }
             }
         }
@@ -70,6 +70,10 @@ public class PlayerUtils {
                 
         // iterates over all the enemy pieces
         for(Piece enemy : enemyArmy){
+            if(enemy.isKilled()) {
+                System.out.printf("\n dvasdfasdf");
+                continue;
+            }
             // for each enemy piece iterates over all it's movable positions
             for(Position pos : enemy.getMovablePositionsWithRefresh()){
                 if(pos.equals(kingPos)){

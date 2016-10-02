@@ -9,6 +9,7 @@ import poo_chess.controller.field.Square;
 import java.util.*;
 import poo_chess.Position;
 import poo_chess.controller.field.Board;
+import poo_chess.View.BoardUpdater;
 
 
 /**
@@ -30,7 +31,7 @@ public class Pawn extends Piece {
     
     @Override
     public String getPieceName(){
-        return "PA";
+        return "pawn";
     }
     
     @Override
@@ -90,5 +91,11 @@ public class Pawn extends Piece {
         // updates the movable Positions of the Pawn
         this.movablePositions = tmpList;
     }    
+    
+    @Override
+    public void getImgPath() {
+        BoardUpdater.setCurrImgPath(this);
+    } 
+    
 }
             

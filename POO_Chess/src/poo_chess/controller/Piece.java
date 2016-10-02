@@ -29,7 +29,7 @@ abstract public class Piece{
         this.mySquare = mySquare;
         this.mySquare.setPieceAboveMe(this);
         this.board = board;
-        this.refreshMovablePositions(board);
+        this.refreshAndFilterMovablePos();
     }
     
     protected void killEnemy(Piece enemy){
@@ -44,12 +44,19 @@ abstract public class Piece{
         return this.mySquare;
     }
     
-    public List<Position> getMovablePositions(){
-        return this.movablePositions;
+    public void refreshAndFilterMovablePos() {
+        this.refreshMovablePositions(board);
+        for(int i=0; i<movablePositions.size(); i++) {
+            Piece currPiece = board.getSquare(movablePositions.get(i)).getPieceAbovaMe(); 
+            if(currPiece !=null && currPiece.getColor() == this.color) {
+                movablePositions.remove(i);
+                i--;
+            }
+        }
     }
     
     public List<Position> getMovablePositionsWithRefresh(){
-        this.refreshMovablePositions(board);
+        this.refreshAndFilterMovablePos();
         return this.movablePositions;
     }
     
@@ -109,16 +116,25 @@ abstract public class Piece{
         }
     }
     
-    private void revive(){
+    private void revive() {
         this.killed = false;
     }
     
-    public Color getColor(){
+    public Color getColor() {
         return this.color;
+    }
+    
+    public String getColorString() {
+        return (this.color == Color.BLACK)? "BLACK": "WHITE";
     }
     
     public boolean isKilled(){
         return this.killed;
+    }
+    
+    @Override
+    public String toString() {
+        return ("\n " + this.getPieceName() + " " + this.getColorString() + " || " + this.mySquare.getMyPosition());
     }
     
     public void pieceHasMoved(){}
@@ -126,4 +142,6 @@ abstract public class Piece{
     protected abstract void refreshMovablePositions(Board board);
     
     public abstract String getPieceName();
+    
+    public abstract void getImgPath();
 }

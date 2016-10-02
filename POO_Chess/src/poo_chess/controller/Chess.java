@@ -20,72 +20,129 @@ public class Chess {
     private final Player player2;
     private final Board board;
     
-    public Chess(){
-        this.board = new Board();
+    private int counter; 
+    private Piece selectedPiece;
+    private Player currPlayer;
+    private Player advPlayer;
+    private Position goToPos;
+    private List<Position> movablePos;
+    private boolean isPieceSelected;
+    
+    public Chess(Board board){
+        this.board = board;
         this.player1 = new Player(this.setPlayerName(1), "up", Color.BLACK, board);
-        this.player2 = new Player(this.setPlayerName(2), "down", Color.WHITE, board);        
+        this.player2 = new Player(this.setPlayerName(2), "down", Color.WHITE, board); 
+        this.counter = 0;
+        this.isPieceSelected = false;
+        this.currPlayer = this.player1;
+        this.advPlayer = this.player2;
     }
     
-    public void startChess(){
+    public void selectPiece(Position clickPos) {
+        selectedPiece = currPlayer.selectPiece(clickPos);
         
-        int counter = 0;
+        if(selectedPiece == null) {
+            this.isPieceSelected = false;
+            return;
+        } 
         
-        while(true){
-            this.board.printBoard();
-            
-            Player currPlayer;
-            Player advPlayer;
-            Piece selectedPiece;
-            Position goToPos;
-            
-            // calculates the turns
-            if(counter % 2 == 0){
-                currPlayer = this.player1;
-                advPlayer = this.player2;
-            } else {
-                currPlayer = this.player2;
-                advPlayer = this.player1;
-            }
-            
-            System.out.printf("\n\n Turn of player: " + currPlayer.getName());
-            
-            List<Position> movablePos;
-            
-            while(true){
-                selectedPiece = currPlayer.selectPiece();
-                movablePos = selectedPiece.getMovablePositions();
+        System.out.printf(selectedPiece.toString());
+        
+        movablePos = selectedPiece.getMovablePositionsWithRefresh();
+        
+        for(Position i : movablePos) {
+            System.out.printf("\n" + i.toString());
+        }
                                 
-                currPlayer.simulateMovement(selectedPiece, movablePos, advPlayer.getMyArmy());
+        currPlayer.simulateMovement(selectedPiece, movablePos, advPlayer.getMyArmy());
                 
-                selectedPiece.setMovablePosHighlightValue(true);
+        this.isPieceSelected = true;
                 
-                goToPos = currPlayer.selectGoToPos(selectedPiece, movablePos);
-                
-                if(goToPos != null){                    
-                    break;
-                }
-            }
+        selectedPiece.setMovablePosHighlightValue(true);
+    }
+    
+    public void selectGoToPosAndMove(Position clickGoToPos) {
+        goToPos = currPlayer.selectGoToPos(selectedPiece, movablePos, clickGoToPos);
+        
+        if(goToPos != null) {
+            counter++;
             
             if(selectedPiece.getSquare().getMyPosition().equals(currPlayer.getKingPos())){
                 currPlayer.setKingPos(goToPos);
             }
             
             currPlayer.movePieceToPosition(selectedPiece, goToPos, false);
-                            
-            long startTime = System.nanoTime();
+            
             boolean isCheckMate = advPlayer.isCheckMate(selectedPiece, currPlayer.getMyArmy());
-            long stopTime = System.nanoTime();
             
-            System.out.printf("\n\n execTime = " + ((stopTime - startTime)/1000000));
-            
-            counter++;
-            
-            if(isCheckMate){
+            Player changed = currPlayer;
+            currPlayer = advPlayer;
+            advPlayer = changed;
+                        
+            if(isCheckMate) {
                 System.out.printf("\n\n Checkmate: " + currPlayer.getName() + " has won the game!!!");
-                break;
+                System.exit(0);
             }
+        } else {
+            System.out.printf("\n Invalid position selected");
         }
+        
+        this.isPieceSelected = false;
     }
+    
+//    public void startChess(){
+//        
+//        counter = 0;
+//        
+//        while(true){
+//            this.board.printBoard();
+//            
+//            // calculates the turns
+//            if(counter % 2 == 0){
+//                currPlayer = this.player1;
+//                advPlayer = this.player2;
+//            } else {
+//                currPlayer = this.player2;
+//                advPlayer = this.player1;
+//            }
+//            
+//            System.out.printf("\n\n Turn of player: " + currPlayer.getName());
+//                        
+//            while(true){
+//                selectedPiece = currPlayer.selectPiece();
+//                movablePos = selectedPiece.getMovablePositions();
+//                                
+//                currPlayer.simulateMovement(selectedPiece, movablePos, advPlayer.getMyArmy());
+//                
+//                selectedPiece.setMovablePosHighlightValue(true);
+//                
+//                goToPos = currPlayer.selectGoToPos(selectedPiece, movablePos);
+//                
+//                if(goToPos != null){                    
+//                    break;
+//                }
+//            }
+//            
+//            if(selectedPiece.getSquare().getMyPosition().equals(currPlayer.getKingPos())){
+//                currPlayer.setKingPos(goToPos);
+//            }
+//            
+//            currPlayer.movePieceToPosition(selectedPiece, goToPos, false);
+//                            
+//            long startTime = System.nanoTime();
+//            boolean isCheckMate = advPlayer.isCheckMate(selectedPiece, currPlayer.getMyArmy());
+//            long stopTime = System.nanoTime();
+//            
+//            System.out.printf("\n\n execTime = " + ((stopTime - startTime)/1000000));
+//            
+//            counter++;
+//            
+//            if(isCheckMate) {
+//                System.out.printf("\n\n Checkmate: " + currPlayer.getName() + " has won the game!!!");
+//                break;
+//            }
+//        }
+//    }
     
     private String setPlayerName(int i){
         
@@ -95,6 +152,8 @@ public class Chess {
         return reader.nextLine();
     }
     
-    
+    public boolean isPieceSelected() {
+        return this.isPieceSelected;
+    }
     
 }
