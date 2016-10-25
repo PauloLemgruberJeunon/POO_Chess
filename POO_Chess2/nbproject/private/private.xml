@@ -3,10 +3,11 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/home/paulojeunon/Xadrez/POO_Chess/src/poo_chess/controller/Piece.java</file>
-            <file>file:/home/paulojeunon/Xadrez/POO_Chess/src/poo_chess/controller/Knight.java</file>
-            <file>file:/home/paulojeunon/Xadrez/POO_Chess/src/poo_chess/View/BoardUpdater.java</file>
-            <file>file:/home/paulojeunon/Xadrez/POO_Chess/src/poo_chess/controller/Player.java</file>
+            <file>file:/home/paulojeunon/gitProjects/POO_Chess/POO_Chess2/src/poo_chess/View/DeskChessFrame.java</file>
+            <file>file:/home/paulojeunon/gitProjects/POO_Chess/POO_Chess2/src/poo_chess/ChessSing.java</file>
+            <file>file:/home/paulojeunon/gitProjects/POO_Chess/POO_Chess2/src/poo_chess/POO_Chess.java</file>
+            <file>file:/home/paulojeunon/gitProjects/POO_Chess/POO_Chess2/src/poo_chess/View/BoardUpdater.java</file>
+            <file>file:/home/paulojeunon/gitProjects/POO_Chess/POO_Chess2/src/poo_chess/controller/Controller.java</file>
         </group>
     </open-files>
 </project-private>

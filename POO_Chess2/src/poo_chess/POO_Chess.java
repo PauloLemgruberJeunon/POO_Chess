@@ -4,6 +4,9 @@
  * and open the template in the editor.
  */
 package poo_chess;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
 import poo_chess.controller.Chess;
 import poo_chess.controller.Controller;
 import poo_chess.View.*;
@@ -26,17 +29,10 @@ public class POO_Chess {
         java.awt.EventQueue.invokeLater(new Runnable() {
             @Override
             public void run() {
-                Board board = new Board();
-                BoardUpdater boardUpdater = new BoardUpdater(board);
-                DeskChessFrame view = new DeskChessFrame(boardUpdater);
-                boardUpdater.registerObserver(view);
-                Controller controller = new Controller();
-                controller.addLogicalChess(new Chess(board));
-                controller.addView(view);
-                view.addController(controller);
-                controller.startMainWindow();
+                
+                ChessSing chessSing = ChessSing.chessSig();
+
             }
         });
-    }
-    
+    }    
 }

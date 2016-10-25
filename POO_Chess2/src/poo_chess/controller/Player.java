@@ -14,7 +14,7 @@ import poo_chess.controller.field.Square;
  *
  * @author paulojeunon
  */
-public class Player {
+public class Player implements java.io.Serializable{
     private final Color color;
     private final String side;
     private final Board board;

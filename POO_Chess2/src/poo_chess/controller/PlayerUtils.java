@@ -16,7 +16,7 @@ import poo_chess.controller.field.Board;
  *
  * @author paulojeunon
  */
-public class PlayerUtils {
+public class PlayerUtils implements java.io.Serializable{
     
     static List<Piece> placeArmyOnBoard(String side, Color color, Board board){
         

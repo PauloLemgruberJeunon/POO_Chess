@@ -16,7 +16,7 @@ import poo_chess.View.BoardUpdater;
  *
  * @author paulojeunon
  */
-public class Pawn extends Piece {
+public class Pawn extends Piece implements java.io.Serializable{
     private boolean firstMove;
     
     public Pawn(Color color, Square square, String direction, Board board) {

@@ -22,7 +22,7 @@ import javax.swing.JPanel;
 public class BoardUpdater extends JPanel {
     
     private final ArrayList<Observer> observers;
-    private final Board chessBoard;
+    private Board chessBoard;
     private static String currImgPath;
 
     public BoardUpdater(Board board) {
@@ -81,12 +81,9 @@ public class BoardUpdater extends JPanel {
                     Image P = new ImageIcon(currImgPath).getImage();
                     ImageObserver observer = null;
                     g.drawImage(P, x0, y0,squareWidth, squareHeight, observer);
-                } else {
-                }
-                
+                }                
             }
-        }
-        
+        }        
     }
 
     @Override //sobrescrita do metodo paintComponent da classe JPanel
@@ -122,6 +119,10 @@ public class BoardUpdater extends JPanel {
     
     public static void setCurrImgPath(Knight kn) {
         currImgPath = "img/" + kn.getColorString() + "/" + kn.getPieceName() + ".png";
+    }
+    
+    public void updateBoard(Board board) {
+        this.chessBoard = board;
     }
 
 }

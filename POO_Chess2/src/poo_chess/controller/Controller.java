@@ -16,7 +16,16 @@ import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 import java.util.Observer;
 import java.awt.Point;
-//import pecas.Peca;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import poo_chess.ChessSing;
 import poo_chess.View.DeskChessFrame;
 import poo_chess.Position;
 
@@ -31,6 +40,7 @@ public class Controller implements MouseListener, MouseMotionListener, ActionLis
     private Point mouseCoord;
     private Chess chess;
     private String str , s;
+    private boolean firstMoveDone = false;
     
     public Controller() {
         mouseCoord = new Point(0, 0);
@@ -41,7 +51,49 @@ public class Controller implements MouseListener, MouseMotionListener, ActionLis
     }
     
     public void addLogicalChess(Chess chess) {
+        this.chess = chess;                               
+    }
+    
+    public void updateLogicalChess(Chess chess) {
         this.chess = chess;
+    }
+    
+    public Chess chess() {
+        return chess;
+    }
+    
+    public void save() {
+        Path path = Paths.get("save.ser");
+        if(Files.exists(path) == false) {
+            File file = new File("save.ser");
+        }
+                
+        try{
+            FileOutputStream fout = new FileOutputStream("save.ser");
+            ObjectOutputStream oos = new ObjectOutputStream(fout);
+            oos.writeObject(this.chess);
+            oos.close();
+            fout.close();
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+    }
+    
+    public void load() {
+        try {
+            FileInputStream fileIn = new FileInputStream("save.ser");
+            ObjectInputStream in = new ObjectInputStream(fileIn);
+            this.chess = (Chess) in.readObject();
+            in.close();
+            fileIn.close();
+         }catch(IOException i) {
+            i.printStackTrace();
+         }catch(ClassNotFoundException c) {
+            System.out.println("Employee class not found");
+            c.printStackTrace();
+        }
+        
+        ChessSing.updateChess(chess);
     }
     
     //Efeito mouse nas pecas
@@ -71,17 +123,26 @@ public class Controller implements MouseListener, MouseMotionListener, ActionLis
     public void mousePressed(MouseEvent e) {        
         int width = view.getBoardPanel().getWidth()/8;
         int height = view.getBoardPanel().getHeight()/8;
-                
+                        
         Position clickPos = new Position(e.getY()/height, e.getX()/width);
+        
+        if(this.firstMoveDone == false) {
+                System.out.println(" Começou o autosave");
+                ChessSing.startAutoSave();
+                this.firstMoveDone = true;
+        }
         
         if(this.chess.isPieceSelected()) {
             this.chess.selectGoToPosAndMove(clickPos);
         } else {
-            this.chess.selectPiece(clickPos);
+            this.chess.selectPiece(clickPos);            
         }
+        
+        
+        
         s = this.chess.toLog();
         view.logArea(s);
-        view.repaint();
+        view.repaint();                                        
     }
     
     @Override

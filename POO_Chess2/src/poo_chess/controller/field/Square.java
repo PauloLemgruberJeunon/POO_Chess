@@ -12,7 +12,7 @@ import poo_chess.Position;
  *
  * @author paulojeunon
  */
-public class Square {
+public class Square implements java.io.Serializable{
     
     private final Color color;
     private final Position position;

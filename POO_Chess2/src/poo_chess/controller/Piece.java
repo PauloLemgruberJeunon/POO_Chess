@@ -14,7 +14,7 @@ import poo_chess.controller.field.Board;
  *
  * @author paulojeunon
  */
-abstract public class Piece{
+abstract public class Piece implements java.io.Serializable{
     protected final String direction;
     protected final Color color;
     private boolean killed;

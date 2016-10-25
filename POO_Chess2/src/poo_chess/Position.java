@@ -10,7 +10,7 @@ package poo_chess;
  * @author paulojeunon
  * This class stores the coordinates of a chess board
  */
-public final class Position {
+public final class Position implements java.io.Serializable{
     private final int verticalPos;
     private final int horizontalPos;
     private final float hashKey;

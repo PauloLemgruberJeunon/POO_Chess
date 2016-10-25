@@ -17,7 +17,7 @@ import poo_chess.View.BoardUpdater;
  *
  * @author paulojeunon
  */
-public class King extends Piece{
+public class King extends Piece implements java.io.Serializable{
         
     public King(Color color, Square square, String direction, Board board) {
         super(color, square, direction, board);

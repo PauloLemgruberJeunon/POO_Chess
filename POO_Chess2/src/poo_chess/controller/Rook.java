@@ -15,7 +15,7 @@ import poo_chess.View.BoardUpdater;
  *
  * @author paulojeunon
  */
-public class Rook extends Piece{
+public class Rook extends Piece implements java.io.Serializable{
     
     public Rook(Color color, Square square, String direction, Board board) {
         super(color, square, direction, board);

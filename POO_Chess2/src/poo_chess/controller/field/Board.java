@@ -13,7 +13,7 @@ import poo_chess.Color;
  *
  * @author paulojeunon
  */
-public class Board {
+public class Board implements java.io.Serializable{
     
     private static final int BOARDSIZE = 8;
     //has a hashMap to store all of the board squares for direct access

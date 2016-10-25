@@ -9,6 +9,6 @@ package poo_chess;
  *
  * @author paulojeunon
  */
-public enum Color {
+public enum Color implements java.io.Serializable{
         BLACK, WHITE;
 }

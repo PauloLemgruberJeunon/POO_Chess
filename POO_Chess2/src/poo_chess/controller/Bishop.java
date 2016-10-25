@@ -17,7 +17,7 @@ import poo_chess.View.BoardUpdater;
  *
  * @author paulojeunon
  */
-public class Bishop extends Piece {
+public class Bishop extends Piece implements java.io.Serializable{
     
     public Bishop(Color color, Square square, String direction, Board board) {
         super(color, square, direction, board);

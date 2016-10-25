@@ -4,25 +4,23 @@
  * and open the template in the editor.
  */
 package poo_chess.controller;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.util.List;
 import poo_chess.Color;
 import java.util.Scanner;
 import poo_chess.controller.field.Board;
 import poo_chess.Position;
-import poo_chess.View.*;
+//import poo_chess.View.*;
 
 /**
  *
  * @author paulojeunon
  */
-public class Chess {
+public class Chess implements java.io.Serializable {
     
     private final Player player1;
     private final Player player2;
     private final Board board;
-    private DeskChessFrame view;
+//    private DeskChessFrame view;
     private String str1, str="", stri , error = "\n Invalid position selected", Checkmate;
     private int counter, teste; 
     private Piece selectedPiece;
@@ -184,6 +182,10 @@ public String toLog(){
     
     public boolean isPieceSelected() {
         return this.isPieceSelected;
+    }
+    
+    public Board board() {
+        return this.board;
     }
     
 }
