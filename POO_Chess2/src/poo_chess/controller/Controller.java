@@ -89,7 +89,6 @@ public class Controller implements MouseListener, MouseMotionListener, ActionLis
          }catch(IOException i) {
             i.printStackTrace();
          }catch(ClassNotFoundException c) {
-            System.out.println("Employee class not found");
             c.printStackTrace();
         }
         
@@ -127,7 +126,6 @@ public class Controller implements MouseListener, MouseMotionListener, ActionLis
         Position clickPos = new Position(e.getY()/height, e.getX()/width);
         
         if(this.firstMoveDone == false) {
-                System.out.println(" Começou o autosave");
                 ChessSing.startAutoSave();
                 this.firstMoveDone = true;
         }

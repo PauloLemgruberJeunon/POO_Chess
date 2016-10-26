@@ -53,7 +53,8 @@ public class Chess implements java.io.Serializable {
         str1 = (selectedPiece.getPieceName() + " " + selectedPiece.getColorString() + " || " + selectedPiece.getSquare().getMyPosition());
         movablePos = selectedPiece.getMovablePositionsWithRefresh();
         
-        for(Position i : movablePos) {
+        str = "";
+        for(Position i : movablePos) {            
             System.out.printf("\n" + i.toString());
             str = (str + "\n" + i.toString());
         }
@@ -117,60 +118,6 @@ public String toLog(){
         }
         return stri;
     }    
-    
-//    public void startChess(){
-//        
-//        counter = 0;
-//        
-//        while(true){
-//            this.board.printBoard();
-//            
-//            // calculates the turns
-//            if(counter % 2 == 0){
-//                currPlayer = this.player1;
-//                advPlayer = this.player2;
-//            } else {
-//                currPlayer = this.player2;
-//                advPlayer = this.player1;
-//            }
-//            
-//            System.out.printf("\n\n Turn of player: " + currPlayer.getName());
-//                        
-//            while(true){
-//                selectedPiece = currPlayer.selectPiece();
-//                movablePos = selectedPiece.getMovablePositions();
-//                                
-//                currPlayer.simulateMovement(selectedPiece, movablePos, advPlayer.getMyArmy());
-//                
-//                selectedPiece.setMovablePosHighlightValue(true);
-//                
-//                goToPos = currPlayer.selectGoToPos(selectedPiece, movablePos);
-//                
-//                if(goToPos != null){                    
-//                    break;
-//                }
-//            }
-//            
-//            if(selectedPiece.getSquare().getMyPosition().equals(currPlayer.getKingPos())){
-//                currPlayer.setKingPos(goToPos);
-//            }
-//            
-//            currPlayer.movePieceToPosition(selectedPiece, goToPos, false);
-//                            
-//            long startTime = System.nanoTime();
-//            boolean isCheckMate = advPlayer.isCheckMate(selectedPiece, currPlayer.getMyArmy());
-//            long stopTime = System.nanoTime();
-//            
-//            System.out.printf("\n\n execTime = " + ((stopTime - startTime)/1000000));
-//            
-//            counter++;
-//            
-//            if(isCheckMate) {
-//                System.out.printf("\n\n Checkmate: " + currPlayer.getName() + " has won the game!!!");
-//                break;
-//            }
-//        }
-//    }
     
     private String setPlayerName(int i){
         

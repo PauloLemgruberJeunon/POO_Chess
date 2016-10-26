@@ -7,6 +7,7 @@ package poo_chess;
 
 import poo_chess.View.BoardUpdater;
 import poo_chess.View.DeskChessFrame;
+import poo_chess.View.SettingsFrame;
 import poo_chess.controller.Chess;
 import poo_chess.controller.Controller;
 import poo_chess.controller.field.Board;
@@ -20,7 +21,9 @@ public class ChessSing {
     private final static Controller controller = new Controller();
     private static Chess chess = new Chess(new Board()); 
     private static BoardUpdater boardUpdater = new BoardUpdater(chess.board());
-    private final static DeskChessFrame view  = new DeskChessFrame(boardUpdater);
+    private final static DeskChessFrame chessView  = new DeskChessFrame(boardUpdater);
+    private final static SettingsFrame settingsView = new SettingsFrame();
+    private static long autoSaveTime = 15000;
     
     private final static Thread autoSave = new Thread(new Runnable() {
             @Override
@@ -28,7 +31,7 @@ public class ChessSing {
                 while(true) {
                     controller.save();
                     try {
-                        Thread.sleep(500);
+                        Thread.sleep(autoSaveTime);
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
@@ -39,10 +42,10 @@ public class ChessSing {
     private static final ChessSing chessSing = new ChessSing();
     
     private ChessSing() {
-        controller.addView(view);
-        view.addController(controller);
+        controller.addView(chessView);
+        chessView.addController(controller);
         controller.addLogicalChess(chess);
-        boardUpdater.registerObserver(view);
+        boardUpdater.registerObserver(chessView);
         controller.startMainWindow();
     }
     
@@ -58,6 +61,14 @@ public class ChessSing {
         chess = newChess;
         boardUpdater.updateBoard(chess.board());
         controller.updateLogicalChess(chess);
+    }
+    
+    public static void updateAutoSaveTime(float timeSec) {
+        autoSaveTime = (long) (1000*timeSec);
+    }
+    
+    public static void settingsViewVisible(boolean on, DeskChessFrame frame) {
+        settingsView.setVisible(on);
     }
     
 }

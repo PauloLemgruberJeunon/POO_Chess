@@ -5,9 +5,14 @@
         <group>
             <file>file:/home/paulojeunon/gitProjects/POO_Chess/POO_Chess2/src/poo_chess/View/DeskChessFrame.java</file>
             <file>file:/home/paulojeunon/gitProjects/POO_Chess/POO_Chess2/src/poo_chess/ChessSing.java</file>
+            <file>file:/home/paulojeunon/gitProjects/POO_Chess/POO_Chess2/src/poo_chess/controller/Chess.java</file>
+            <file>file:/home/paulojeunon/gitProjects/POO_Chess/POO_Chess2/src/poo_chess/controller/PlayerUtils.java</file>
             <file>file:/home/paulojeunon/gitProjects/POO_Chess/POO_Chess2/src/poo_chess/POO_Chess.java</file>
+            <file>file:/home/paulojeunon/gitProjects/POO_Chess/POO_Chess2/src/poo_chess/View/SettingsFrame.java</file>
             <file>file:/home/paulojeunon/gitProjects/POO_Chess/POO_Chess2/src/poo_chess/View/BoardUpdater.java</file>
             <file>file:/home/paulojeunon/gitProjects/POO_Chess/POO_Chess2/src/poo_chess/controller/Controller.java</file>
+            <file>file:/home/paulojeunon/gitProjects/POO_Chess/POO_Chess2/src/poo_chess/controller/Piece.java</file>
+            <file>file:/home/paulojeunon/gitProjects/POO_Chess/POO_Chess2/src/poo_chess/controller/Player.java</file>
         </group>
     </open-files>
 </project-private>

@@ -71,7 +71,6 @@ public class PlayerUtils implements java.io.Serializable{
         // iterates over all the enemy pieces
         for(Piece enemy : enemyArmy){
             if(enemy.isKilled()) {
-                System.out.printf("\n dvasdfasdf");
                 continue;
             }
             // for each enemy piece iterates over all it's movable positions

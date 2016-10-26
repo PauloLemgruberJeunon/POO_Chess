@@ -7,7 +7,9 @@ import java.awt.Graphics2D;
 import java.awt.GridLayout;
 import java.util.Observable;
 import java.util.Observer;
+import javax.swing.JFrame;
 import javax.swing.JPanel;
+import poo_chess.ChessSing;
 
 /**
  *
@@ -80,11 +82,13 @@ public class DeskChessFrame extends javax.swing.JFrame implements Observer {
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
         jButton1 = new javax.swing.JButton();
+        jButton2 = new javax.swing.JButton();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         jMenuItem4 = new javax.swing.JMenuItem();
         jMenuItem9 = new javax.swing.JMenuItem();
         jMenuItem8 = new javax.swing.JMenuItem();
+        jMenuItem7 = new javax.swing.JMenuItem();
         jMenuItem1 = new javax.swing.JMenuItem();
         jMenu2 = new javax.swing.JMenu();
         jMenuItem6 = new javax.swing.JMenuItem();
@@ -177,6 +181,8 @@ public class DeskChessFrame extends javax.swing.JFrame implements Observer {
 
         jButton1.setText("jButton1");
 
+        jButton2.setText("jButton2");
+
         jMenu1.setText("Jogo");
 
         jMenuItem4.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_N, java.awt.event.InputEvent.CTRL_MASK));
@@ -205,6 +211,14 @@ public class DeskChessFrame extends javax.swing.JFrame implements Observer {
             }
         });
         jMenu1.add(jMenuItem8);
+
+        jMenuItem7.setText("Settings");
+        jMenuItem7.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem7ActionPerformed(evt);
+            }
+        });
+        jMenu1.add(jMenuItem7);
 
         jMenuItem1.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_W, java.awt.event.InputEvent.CTRL_MASK));
         jMenuItem1.setText("Exit");
@@ -303,9 +317,14 @@ public class DeskChessFrame extends javax.swing.JFrame implements Observer {
        this.controller.save();      
     }//GEN-LAST:event_jMenuItem9ActionPerformed
 
+    private void jMenuItem7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem7ActionPerformed
+        ChessSing.settingsViewVisible(true, this);
+    }//GEN-LAST:event_jMenuItem7ActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel boardPanel;
     private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton2;
     private javax.swing.JCheckBoxMenuItem jCheckBoxMenuItem1;
     private javax.swing.JCheckBoxMenuItem jCheckBoxMenuItem3;
     private javax.swing.JDialog jDialog1;
@@ -324,6 +343,7 @@ public class DeskChessFrame extends javax.swing.JFrame implements Observer {
     private javax.swing.JMenuItem jMenuItem4;
     private javax.swing.JMenuItem jMenuItem5;
     private javax.swing.JMenuItem jMenuItem6;
+    private javax.swing.JMenuItem jMenuItem7;
     private javax.swing.JMenuItem jMenuItem8;
     private javax.swing.JMenuItem jMenuItem9;
     private javax.swing.JScrollPane jScrollPane1;
@@ -340,6 +360,5 @@ public class DeskChessFrame extends javax.swing.JFrame implements Observer {
     //Fazendo o log
     public void logArea(String str){
         logArea.append(str + "\n");
-        
     }
 }
