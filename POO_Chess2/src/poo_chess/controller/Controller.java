@@ -174,6 +174,9 @@ public class Controller implements MouseListener, MouseMotionListener, ActionLis
         view.sair();
     }
     
+    public Player currPlayer() {
+        return chess.getCurrPlayer();
+    }
     
     public void startMainWindow(){
         view.setVisible(true);

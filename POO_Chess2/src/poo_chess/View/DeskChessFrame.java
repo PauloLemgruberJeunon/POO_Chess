@@ -5,9 +5,11 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics2D;
 import java.awt.GridLayout;
+import java.util.GregorianCalendar;
 import java.util.Observable;
 import java.util.Observer;
-import javax.swing.JFrame;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JPanel;
 import poo_chess.ChessSing;
 
@@ -19,11 +21,17 @@ import poo_chess.ChessSing;
 public class DeskChessFrame extends javax.swing.JFrame implements Observer {
 
     private BoardUpdater board;
-    private Controller controller;   
+    private Controller controller;  
+    private Thread clock;
+    private Thread turnClock;
+    private String currPlayer;
+    private boolean killThread = false;
     
-    public DeskChessFrame(BoardUpdater board) {
+    public DeskChessFrame(BoardUpdater board) {                
         initComponents();
         init(board);
+        this.clock();
+        this.startTurnClock();
     }
     
     public void addController(Controller controller){
@@ -31,10 +39,104 @@ public class DeskChessFrame extends javax.swing.JFrame implements Observer {
         this.board.addMouseListener(controller);
         this.board.addMouseMotionListener(controller);
         this.jMenuItem1.setActionCommand("sair"); this.jMenuItem1.addActionListener(controller);
+        
+        this.currPlayer = controller.currPlayer().getName();
     }
 
     public JPanel getBoardPanel() {
         return boardPanel;
+    }
+    
+    private void clock() {
+                
+        clock = new Thread(new Runnable() {
+            
+            private int seconds = 0, minutes = 0, hours = 0;
+            private int seconds2 = 0, minutes2 = 0;
+            
+            @Override
+            public void run() {
+                while(true) {
+                    
+                    if(seconds2 >= 10) {
+                        seconds++;
+                        seconds2 = 0;
+                    }
+                    
+                    if(minutes2 >= 10) {
+                        minutes++;
+                        minutes2 = 0;
+                    }
+                                        
+                    if(seconds >= 6) {
+                        minutes2++;
+                        seconds = 0;
+                    }
+                    
+                    if(minutes >= 6) {
+                        hours++;
+                        minutes = 0;
+                    }
+                    
+                    jLabel7.setText(hours + ":" + minutes + minutes2 + ":" + seconds + seconds2);
+
+                    try {
+                    Thread.sleep(1000);
+                    } catch (InterruptedException ex) {
+                        System.out.println("ergsergrgwergwrgwergwerg");
+                        Logger.getLogger(DeskChessFrame.class.getName()).log(Level.SEVERE, null, ex);
+                    }                                                                                
+                    
+                    seconds2++;
+                }
+            }
+        });        
+        clock.start();        
+    }
+    
+    private void startTurnClock() {
+        turnClock = new Thread(new Runnable() {
+            
+            private int seconds = 0, minutes = 0, hours = 0;
+            private int seconds2 = 0, minutes2 = 0;
+            
+            @Override
+            public void run() {
+                while(true) {
+                    
+                    if(seconds2 >= 10) {
+                        seconds++;
+                        seconds2 = 0;
+                    }
+                    
+                    if(minutes2 >= 10) {
+                        minutes++;
+                        minutes2 = 0;
+                    }
+                                        
+                    if(seconds >= 6) {
+                        minutes2++;
+                        seconds = 0;
+                    }
+                    
+                    if(minutes >= 6) {
+                        hours++;
+                        minutes = 0;
+                    }
+
+                    jLabel9.setText(hours + ":" + minutes + minutes2 + ":" + seconds + seconds2);
+                    
+                    try {
+                    Thread.sleep(1000);
+                    } catch (InterruptedException ex) {                        
+                        break;
+                    }                                                                                
+                    
+                    seconds2++;
+                }
+            }
+        });        
+        turnClock.start();
     }
     
     //private void init(ChessInutil chess){
@@ -49,6 +151,19 @@ public class DeskChessFrame extends javax.swing.JFrame implements Observer {
         
         // o board que nos interessa nao é o do Swing padrao, mas a classe Tabuleiro jPanel que criamos !!!
         this.boardPanel.add(board);  
+    }
+    
+    private void updateCurrPlayer() {
+        String playerName = controller.currPlayer().getName();
+        
+        if(this.currPlayer.equals(playerName) == false) {
+            System.out.println("teste");
+            turnClock.interrupt();
+            this.startTurnClock();
+            this.currPlayer = playerName;
+        }
+        
+        jLabel8.setText(playerName); 
     }
        
     public void sair(){
@@ -76,13 +191,14 @@ public class DeskChessFrame extends javax.swing.JFrame implements Observer {
         jFrame1 = new javax.swing.JFrame();
         boardPanel = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
-        jLabel2 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         logArea = new javax.swing.JTextArea();
-        jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
+        jLabel7 = new javax.swing.JLabel();
+        jLabel8 = new javax.swing.JLabel();
+        jLabel9 = new javax.swing.JLabel();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         jMenuItem4 = new javax.swing.JMenuItem();
@@ -165,16 +281,10 @@ public class DeskChessFrame extends javax.swing.JFrame implements Observer {
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel1.setText("DeskChess");
 
-        jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel2.setText("JOGADOR 1");
-
         logArea.setEditable(false);
         logArea.setColumns(20);
         logArea.setRows(5);
         jScrollPane1.setViewportView(logArea);
-
-        jLabel3.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel3.setText("JOGADOR 2");
 
         jLabel4.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel4.setText("VEZ DO JOGADOR");
@@ -182,6 +292,16 @@ public class DeskChessFrame extends javax.swing.JFrame implements Observer {
         jButton1.setText("jButton1");
 
         jButton2.setText("jButton2");
+
+        jLabel7.setFont(new java.awt.Font("Waree", 1, 20)); // NOI18N
+        jLabel7.setText("Game Clock");
+
+        jLabel8.setFont(new java.awt.Font("Waree", 1, 18)); // NOI18N
+        jLabel8.setText("PLayerX");
+
+        jLabel9.setFont(new java.awt.Font("Dialog", 1, 16)); // NOI18N
+        jLabel9.setForeground(new java.awt.Color(255, 51, 51));
+        jLabel9.setText("Turn Clock");
 
         jMenu1.setText("Jogo");
 
@@ -254,14 +374,21 @@ public class DeskChessFrame extends javax.swing.JFrame implements Observer {
                 .addComponent(boardPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel4, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, 236, Short.MAX_VALUE)
-                            .addComponent(jScrollPane1)
-                            .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jLabel3, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 236, Short.MAX_VALUE)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jLabel1)
+                                .addGap(0, 0, Short.MAX_VALUE)))
                         .addContainerGap())
-                    .addComponent(jLabel4, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(12, 12, 12)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 186, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 186, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 176, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(0, 0, Short.MAX_VALUE))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -269,14 +396,16 @@ public class DeskChessFrame extends javax.swing.JFrame implements Observer {
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jLabel1)
+                        .addGap(12, 12, 12)
+                        .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jLabel2)
-                        .addGap(72, 72, 72)
-                        .addComponent(jLabel3)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jLabel4)
-                        .addGap(70, 70, 70)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 216, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(boardPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 557, Short.MAX_VALUE))
                 .addContainerGap())
@@ -331,9 +460,10 @@ public class DeskChessFrame extends javax.swing.JFrame implements Observer {
     private javax.swing.JDialog jDialog2;
     private javax.swing.JFrame jFrame1;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel8;
+    private javax.swing.JLabel jLabel9;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenuBar jMenuBar1;
@@ -355,6 +485,7 @@ public class DeskChessFrame extends javax.swing.JFrame implements Observer {
         
         board.printPiece((Graphics2D) arg);
         controller.drawMouseQuadrante((Graphics2D) arg);
+        this.updateCurrPlayer();
     }
     
     //Fazendo o log

@@ -102,7 +102,7 @@ public class Chess implements java.io.Serializable {
         this.isPieceSelected = false;
     }
 
-public String toLog(){
+    public String toLog(){
         switch (teste) {
             case 1:
                 stri = str1 + str;
@@ -133,6 +133,10 @@ public String toLog(){
     
     public Board board() {
         return this.board;
+    }
+    
+    public Player getCurrPlayer() {
+        return currPlayer;
     }
     
 }

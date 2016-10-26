@@ -4,14 +4,6 @@
  * and open the template in the editor.
  */
 package poo_chess;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import poo_chess.controller.Chess;
-import poo_chess.controller.Controller;
-import poo_chess.View.*;
-import poo_chess.controller.field.Board;
-
 
 /**
  *

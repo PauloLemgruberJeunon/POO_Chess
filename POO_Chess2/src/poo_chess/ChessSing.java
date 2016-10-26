@@ -43,8 +43,8 @@ public class ChessSing {
     
     private ChessSing() {
         controller.addView(chessView);
-        chessView.addController(controller);
         controller.addLogicalChess(chess);
+        chessView.addController(controller);
         boardUpdater.registerObserver(chessView);
         controller.startMainWindow();
     }
