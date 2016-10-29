@@ -42,10 +42,12 @@ public class Queen extends Piece implements java.io.Serializable{
         // This loop starts from the right side of the piece and goes adding the squares util it hits a occupied square
         for(int i = myHorizontalPos+1; i < 8; i++){
             Position tmp = new Position(myVerticalPos, i);
-            if(tmp.getIsValid() && (board.getSquare(tmp).getPieceAbovaMe() == null || 
-                    board.getSquare(tmp).getPieceAbovaMe().getColor() != this.color)){
+            if(tmp.getIsValid() && board.getSquare(tmp).getPieceAbovaMe() == null) {
                 tmpList.add(tmp);
             } else {
+                if(board.getSquare(tmp).getPieceAbovaMe().getColor() != this.color) {
+                    tmpList.add(tmp);
+                }
                 break;
             }
         }
@@ -53,10 +55,12 @@ public class Queen extends Piece implements java.io.Serializable{
         // This loop starts from the left side of the piece and goes adding the squares util it hits a occupied square
         for(int i = myHorizontalPos-1; i > -1; i--){
             Position tmp = new Position(myVerticalPos, i);
-            if(tmp.getIsValid() && (board.getSquare(tmp).getPieceAbovaMe() == null || 
-                    board.getSquare(tmp).getPieceAbovaMe().getColor() != this.color)){
+            if(tmp.getIsValid() && board.getSquare(tmp).getPieceAbovaMe() == null) {
                 tmpList.add(tmp);
             } else {
+                if(board.getSquare(tmp).getPieceAbovaMe().getColor() != this.color) {
+                    tmpList.add(tmp);
+                }
                 break;
             }
         }
@@ -64,10 +68,12 @@ public class Queen extends Piece implements java.io.Serializable{
         // This loop starts from the upper side of the piece and goes adding the squares util it hits a occupied square
         for(int i = myVerticalPos-1; i > -1; i--){
             Position tmp = new Position(i, myHorizontalPos);
-            if(tmp.getIsValid() && (board.getSquare(tmp).getPieceAbovaMe() == null || 
-                    board.getSquare(tmp).getPieceAbovaMe().getColor() != this.color)){
+            if(tmp.getIsValid() && board.getSquare(tmp).getPieceAbovaMe() == null) {
                 tmpList.add(tmp);
             } else {
+                if(board.getSquare(tmp).getPieceAbovaMe().getColor() != this.color) {
+                    tmpList.add(tmp);
+                }
                 break;
             }
         }
@@ -75,10 +81,12 @@ public class Queen extends Piece implements java.io.Serializable{
         // This loop starts from the bottom side of the piece and goes adding the squares util it hits a occupied square
         for(int i = myVerticalPos+1; i < 8; i++){
             Position tmp = new Position(i, myHorizontalPos);
-            if(tmp.getIsValid() && (board.getSquare(tmp).getPieceAbovaMe() == null || 
-                    board.getSquare(tmp).getPieceAbovaMe().getColor() != this.color)){
+            if(tmp.getIsValid() && board.getSquare(tmp).getPieceAbovaMe() == null) {
                 tmpList.add(tmp);
             } else {
+                if(board.getSquare(tmp).getPieceAbovaMe().getColor() != this.color) {
+                    tmpList.add(tmp);
+                }
                 break;
             }
         }
@@ -117,9 +125,13 @@ public class Queen extends Piece implements java.io.Serializable{
             }
             
             Position pos = new Position(myVerticalPos+counterUpDown, myHorizontalPos+counterLeftRight);
-            if(pos.getIsValid() && this.board.getSquare(pos).getPieceAbovaMe() == null){
+            if(pos.getIsValid() && this.board.getSquare(pos).getPieceAbovaMe() == null) {            
                 tmpList.add(pos);
             } else { // Resets the counters 
+                                
+                if(pos.getIsValid() && this.board.getSquare(pos).getPieceAbovaMe().getColorString().equals(this.getColorString()) == false) {
+                    tmpList.add(pos);
+                }
                 
                 counter = 0;
                 counterUpDown = 0;

@@ -71,9 +71,14 @@ public class Bishop extends Piece implements java.io.Serializable{
             }
             
             Position pos = new Position(myVerticalPos+counterUpDown, myHorizontalPos+counterLeftRight);
-            if(pos.getIsValid() && this.board.getSquare(pos).getPieceAbovaMe() == null){
+            
+            if(pos.getIsValid() && this.board.getSquare(pos).getPieceAbovaMe() == null) {            
                 tmpList.add(pos);
             } else { // Resets the counters 
+                                
+                if(pos.getIsValid() && this.board.getSquare(pos).getPieceAbovaMe().getColorString().equals(this.getColorString()) == false) {
+                    tmpList.add(pos);
+                }
                 
                 counter = 0;
                 counterUpDown = 0;

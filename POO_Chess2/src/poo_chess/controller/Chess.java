@@ -7,6 +7,7 @@ package poo_chess.controller;
 import java.util.List;
 import poo_chess.Color;
 import java.util.Scanner;
+import poo_chess.ChessSing;
 import poo_chess.controller.field.Board;
 import poo_chess.Position;
 //import poo_chess.View.*;
@@ -22,7 +23,7 @@ public class Chess implements java.io.Serializable {
     private final Board board;
 //    private DeskChessFrame view;
     private String str1, str="", stri , error = "\n Invalid position selected", Checkmate;
-    private int counter, teste; 
+    private int counter, logState; 
     private Piece selectedPiece;
     private Player currPlayer;
     private Player advPlayer;
@@ -41,7 +42,7 @@ public class Chess implements java.io.Serializable {
     }
     
     public void selectPiece(Position clickPos) {
-        teste = 1;
+        logState = 1;
         selectedPiece = currPlayer.selectPiece(clickPos);
         
         if(selectedPiece == null) {
@@ -77,6 +78,7 @@ public class Chess implements java.io.Serializable {
                 currPlayer.setKingPos(goToPos);
             }
             
+            selectedPiece.setMovablePosHighlightValue(false);
             currPlayer.movePieceToPosition(selectedPiece, goToPos, false);
             
             boolean isCheckMate = advPlayer.isCheckMate(selectedPiece, currPlayer.getMyArmy());
@@ -88,22 +90,22 @@ public class Chess implements java.io.Serializable {
             if(isCheckMate) {
                 this.Checkmate = ("\n\n Checkmate: " + currPlayer.getName() + " has won the game!!!");
                 System.out.printf(stri);
-                //view.logArea(stri);
+                ChessSing.isCheck(false, true);
                 System.exit(0);
-                teste = 3;
+                logState = 3;
                 
             }
         } else {
             System.out.printf(error);
             //view.logArea(error);
-            teste = 2;
+            logState = 2;
         }
         
-        this.isPieceSelected = false;
+        this.isPieceSelected = false;        
     }
 
     public String toLog(){
-        switch (teste) {
+        switch (logState) {
             case 1:
                 stri = str1 + str;
                 break;

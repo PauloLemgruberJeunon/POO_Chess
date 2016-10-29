@@ -45,7 +45,8 @@ public class Board implements java.io.Serializable{
         float key = position.getKey();
         Square tmp = (Square)this.boardSquares.get(key);
         if(tmp == null){
-            System.out.printf("\n\n Did not find the peice returning null...");
+            System.out.printf("\n\n Did not find the piece returning null...");
+            return null;
         }
         
         return tmp;

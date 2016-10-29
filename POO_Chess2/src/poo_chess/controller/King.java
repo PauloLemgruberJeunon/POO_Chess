@@ -43,7 +43,7 @@ public class King extends Piece implements java.io.Serializable{
                 if(i == 0 && j == 0){
                 } else {
                     Position pos = new Position(myVerticalPos+i, myHorizontalPos+j);
-                    if(pos.getIsValid() && board.getSquare(pos).getPieceAbovaMe() == null){
+                    if(pos.getIsValid() && (board.getSquare(pos).getPieceAbovaMe() == null || board.getSquare(pos).getPieceAbovaMe().getColorString().equals(this.getColorString()) == false)){
                         tmpList.add(pos);
                     }
                 }

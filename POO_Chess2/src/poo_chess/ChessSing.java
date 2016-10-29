@@ -5,6 +5,7 @@
  */
 package poo_chess;
 
+import java.util.List;
 import poo_chess.View.BoardUpdater;
 import poo_chess.View.DeskChessFrame;
 import poo_chess.View.SettingsFrame;
@@ -71,4 +72,7 @@ public class ChessSing {
         settingsView.setVisible(on);
     }
     
+    public static void isCheck(boolean check, boolean checkMate) {
+        chessView.isCheck(check, checkMate);        
+    }
 }

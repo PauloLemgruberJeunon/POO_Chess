@@ -10,9 +10,11 @@ import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.image.ImageObserver;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Observer;
 import javax.swing.ImageIcon;
 import javax.swing.JPanel;
+import poo_chess.Position;
 
 /**
  *
@@ -24,11 +26,10 @@ public class BoardUpdater extends JPanel {
     private final ArrayList<Observer> observers;
     private Board chessBoard;
     private static String currImgPath;
-
+    
     public BoardUpdater(Board board) {
-        //super();
         observers = new ArrayList<>();
-        this.chessBoard = board;
+        this.chessBoard = board;        
     }
     
     public void registerObserver(Observer ob){
@@ -72,16 +73,19 @@ public class BoardUpdater extends JPanel {
 
                 int x0 = square.getMyPosition().getHorizontalCoordinate() * squareWidth;
                 int y0 = square.getMyPosition().getVerticalCoordinate() * squareHeight;
-                int x1 = x0 + squareWidth;
-                int y1 = y0 + squareHeight;
-                int squareSize = 50;
                 Piece piece = square.getPieceAbovaMe();
+                
+                if(square.getHighlighted()) {
+                    g.setColor(Color.GREEN);
+                    g.fillRect(x0+5, y0+5, squareWidth-10, squareHeight-10);
+                }
+                
                 if(piece != null) {
                     piece.getImgPath();
                     Image P = new ImageIcon(currImgPath).getImage();
                     ImageObserver observer = null;
                     g.drawImage(P, x0, y0,squareWidth, squareHeight, observer);
-                }                
+                }                                          
             }
         }        
     }

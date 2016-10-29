@@ -5,6 +5,7 @@
  */
 package poo_chess.controller;
 import java.util.*;
+import poo_chess.ChessSing;
 import poo_chess.Color;
 import poo_chess.controller.field.Board;
 import poo_chess.Position;
@@ -132,12 +133,14 @@ public class Player implements java.io.Serializable{
 
             this.undoPlay(myPiece, killedPiece, originalPos);
                                     
-            if(isKingInCheck){
+            if(isKingInCheck){                
                 movablePos.remove(i);
                 i--;
             } else {
-                hasNonCheckMove = true;
-            }
+                hasNonCheckMove = true;                
+            }        
+            
+            ChessSing.isCheck(PlayerUtils.isKingInCheck(this.myKingPos, enemyArmy), false);
         }
         
         return hasNonCheckMove;
@@ -145,6 +148,10 @@ public class Player implements java.io.Serializable{
     
     protected boolean isCheckMate(Piece selectedPiece, List<Piece> enemyArmy){
         for(Piece currPiece : this.myArmy){
+            if(currPiece.isKilled()) {
+                continue;
+            }
+            
             if(selectedPiece != currPiece && 
                     this.simulateMovement(currPiece, currPiece.getMovablePositionsWithRefresh(), enemyArmy)){
                 return false;

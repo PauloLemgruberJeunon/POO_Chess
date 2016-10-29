@@ -48,7 +48,7 @@ abstract public class Piece implements java.io.Serializable{
         this.refreshMovablePositions(board);
         for(int i=0; i<movablePositions.size(); i++) {
             Piece currPiece = board.getSquare(movablePositions.get(i)).getPieceAbovaMe(); 
-            if(currPiece !=null && currPiece.getColor() == this.color) {
+            if(currPiece != null && currPiece.getColor() == this.color) {
                 movablePositions.remove(i);
                 i--;
             }
@@ -79,7 +79,7 @@ abstract public class Piece implements java.io.Serializable{
             
             Piece pieceAboveMe = mvToThisSquare.getPieceAbovaMe();
             // Checks if there is an enemy on the position that you moved to
-            if(pieceAboveMe != null && pieceAboveMe.color != this.color){
+            if(pieceAboveMe != null && pieceAboveMe.getColor() != this.color){
                 this.killEnemy(pieceAboveMe);
             }
             
