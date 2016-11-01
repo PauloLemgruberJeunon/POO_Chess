@@ -4,9 +4,11 @@
  * and open the template in the editor.
  */
 package poo_chess.controller;
+import java.sql.Time;
 import java.util.List;
 import poo_chess.Color;
 import java.util.Scanner;
+import javax.swing.JOptionPane;
 import poo_chess.ChessSing;
 import poo_chess.controller.field.Board;
 import poo_chess.Position;
@@ -22,7 +24,7 @@ public class Chess implements java.io.Serializable {
     private final Player player2;
     private final Board board;
 //    private DeskChessFrame view;
-    private String str1, str="", stri , error = "\n Invalid position selected", Checkmate;
+    private String str1, str="", stri , error = "\n Invalid position selected", Checkmate, resposta1, resposta2;
     private int counter, logState; 
     private Piece selectedPiece;
     private Player currPlayer;
@@ -33,8 +35,17 @@ public class Chess implements java.io.Serializable {
     
     public Chess(Board board){
         this.board = board;
-        this.player1 = new Player(this.setPlayerName(1), "up", Color.BLACK, board);
-        this.player2 = new Player(this.setPlayerName(2), "down", Color.WHITE, board); 
+        //this.player1 = new Player(this.setPlayerName(1), "up", Color.BLACK, board);
+        resposta1 = JOptionPane.showInputDialog(null,"Informe o nome do Jogador 1","Xadrez",JOptionPane.QUESTION_MESSAGE);
+        if(resposta1 == null)
+            resposta1 = "Jogador 1";
+        this.player1 = new Player(resposta1,"up",Color.BLACK, board);
+        //this.player2 = new Player(this.setPlayerName(2), "down", Color.WHITE, board); 
+        resposta2 = JOptionPane.showInputDialog(null,"Informe o nome do Jogador 2","Xadrez",JOptionPane.QUESTION_MESSAGE);
+        if (resposta2 == null) 
+            resposta2 = "Jogador 2";
+        
+        this.player2 = new Player(resposta2,"down",Color.WHITE, board);
         this.counter = 0;
         this.isPieceSelected = false;
         this.currPlayer = this.player1;
@@ -120,14 +131,15 @@ public class Chess implements java.io.Serializable {
         }
         return stri;
     }    
-    
+    //Inserir nome
+   /*
     private String setPlayerName(int i){
         
         Scanner reader = new Scanner(System.in);
         
         System.out.println("\n\n Type the name of player " + i + ": ");
         return reader.nextLine();
-    }
+    }*/
     
     public boolean isPieceSelected() {
         return this.isPieceSelected;
