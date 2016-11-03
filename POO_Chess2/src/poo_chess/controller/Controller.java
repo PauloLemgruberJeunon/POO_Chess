@@ -109,10 +109,6 @@ public class Controller implements MouseListener, MouseMotionListener, ActionLis
         g.drawRect(this.mouseCoord.x/width * squareWidth, this.mouseCoord.y/height * squareHeight, squareWidth, squareHeight);
         g.setColor(Color.BLACK);
     }
-    
-    public void startGame(){
-    //PRECISA PROGRAMAR ISSO
-    }
    
     @Override
     public void mouseClicked(MouseEvent e) {
@@ -126,8 +122,8 @@ public class Controller implements MouseListener, MouseMotionListener, ActionLis
         Position clickPos = new Position(e.getY()/height, e.getX()/width);
         
         if(this.firstMoveDone == false) {
-                ChessSing.startAutoSave();
-                this.firstMoveDone = true;
+            ChessSing.startAutoSave();
+            this.firstMoveDone = true;
         }
         
         if(this.chess.isPieceSelected()) {

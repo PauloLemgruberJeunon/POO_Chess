@@ -37,13 +37,15 @@ public class Chess implements java.io.Serializable {
         this.board = board;
         //this.player1 = new Player(this.setPlayerName(1), "up", Color.BLACK, board);
         resposta1 = JOptionPane.showInputDialog(null,"Informe o nome do Jogador 1","Xadrez",JOptionPane.QUESTION_MESSAGE);
-        if(resposta1 == null)
+        if(resposta1 == null || resposta1 == "")
             resposta1 = "Jogador 1";
         this.player1 = new Player(resposta1,"up",Color.BLACK, board);
         //this.player2 = new Player(this.setPlayerName(2), "down", Color.WHITE, board); 
         resposta2 = JOptionPane.showInputDialog(null,"Informe o nome do Jogador 2","Xadrez",JOptionPane.QUESTION_MESSAGE);
-        if (resposta2 == null) 
+        if (resposta2 == null || resposta2 == ""){ 
             resposta2 = "Jogador 2";
+            System.out.println("resposta = " + resposta2);
+        }
         
         this.player2 = new Player(resposta2,"down",Color.WHITE, board);
         this.counter = 0;
@@ -78,7 +80,7 @@ public class Chess implements java.io.Serializable {
                 
         selectedPiece.setMovablePosHighlightValue(true);
     }
-
+//LUGAR PARA INSERIR INTERUPCAO
     public void selectGoToPosAndMove(Position clickGoToPos) {
         goToPos = currPlayer.selectGoToPos(selectedPiece, movablePos, clickGoToPos);
         

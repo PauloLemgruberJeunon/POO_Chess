@@ -13,7 +13,7 @@ public class MovimentoInvalidoInterrupt extends Exception{
     private Piece peca;
     
     MovimentoInvalidoInterrupt(Piece peca){
-        this.peca = peca;
+        System.out.println("Movimento invalido");
     }
     
     Piece getPeca(){
