@@ -54,7 +54,7 @@ public class ChessSing {
         autoSave.start();
     }
     
-    public static ChessSing chessSig() {
+    public static ChessSing chessSing() {
         return chessSing;
     }
     

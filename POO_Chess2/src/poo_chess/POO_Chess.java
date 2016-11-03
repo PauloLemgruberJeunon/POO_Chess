@@ -22,7 +22,7 @@ public class POO_Chess {
             @Override
             public void run() {
                 
-                ChessSing chessSing = ChessSing.chessSig();
+                ChessSing chessSing = ChessSing.chessSing();
 
             }
         });
