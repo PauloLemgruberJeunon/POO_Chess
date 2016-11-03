@@ -43,23 +43,6 @@ public class Player implements java.io.Serializable{
     public String getName(){
         return this.name;
     }
-        
-    protected Piece selectPiece(){
-        
-        Piece pieceAbove;
-        while(true){
-            String message = "\n\n Enter the coordinates of the piece that you want to move";
-            Position pos = PlayerUtils.enterCoordinates(message);
-            pieceAbove = board.getSquare(pos).getPieceAbovaMe();
-            if(pos.getIsValid() == false || pieceAbove == null || pieceAbove.getColor() != this.color){
-                System.out.printf("\n\n Invalid pos selection");
-            } else {
-                pieceAbove.refreshMovablePositions(board);
-                break;
-            }
-        }
-        return pieceAbove;
-    }
     
     protected Piece selectPiece(Position clickPos){
         
@@ -71,20 +54,6 @@ public class Player implements java.io.Serializable{
             pieceAbove.refreshMovablePositions(board);
         }
         return pieceAbove;
-    }
-    
-    protected Position selectGoToPos(Piece piece, List<Position> movablePos){
-        Position goToPos;
-        
-        String message = "\n\n Enter the wanted goTo position (verticalCoord, horizontalCoord):  ";
-        goToPos = PlayerUtils.enterCoordinates(message);
-        if((goToPos.getIsValid() && movablePos.contains(goToPos)) == false){
-            System.out.printf("\n\n You enter an invalid position or a not movable position, try again...");
-            goToPos = null;
-            piece.setMovablePosHighlightValue(false);
-        }
-        
-        return goToPos;
     }
     
     protected Position selectGoToPos(Piece piece, List<Position> movablePos, Position clickGoToPos){

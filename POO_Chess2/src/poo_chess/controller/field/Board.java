@@ -5,7 +5,6 @@
  */
 package poo_chess.controller.field;
 import java.util.*;
-import poo_chess.controller.Piece;
 import poo_chess.Position;
 import poo_chess.Color;
 
@@ -67,38 +66,4 @@ public class Board implements java.io.Serializable{
     public HashMap getSquareHash(){
         return this.boardSquares;
     }
-    
-    
-    // Print the board with the pieces above it for debbug and play without the GUI
-    public void printBoard(){
-        
-        for(int i = 0; i < 8; i++){
-            if(i == 0){
-                System.out.printf("   *" + i);
-            } else {
-                System.out.printf(" *" + i);
-            }
-        }
-        
-        System.out.printf("\n");
-        
-        for(int i = 0; i < 8; i++){
-            System.out.printf("*" + i);
-            for(int j = 0; j < 8; j++){
-                Piece piece = this.getSquare(new Position(i ,j)).getPieceAbovaMe();
-                if(piece != null && piece.isKilled() == false){
-                    String pieceName = piece.getPieceName();
-                    System.out.printf(" " + pieceName);
-                } else {
-                    System.out.printf(" XX");
-                }
-                
-                if(j == 7){
-                    System.out.printf("\n");
-                }
-                
-            }
-        }
-    }
-    
 }
