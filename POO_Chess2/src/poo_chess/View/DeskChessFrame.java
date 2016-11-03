@@ -92,7 +92,7 @@ public class DeskChessFrame extends javax.swing.JFrame implements Observer {
                     jLabel7.setText(hours + ":" + minutes + minutes2 + ":" + seconds + seconds2);
 
                     try {
-                    Thread.sleep(1000);
+                        Thread.sleep(1000);
                     } catch (InterruptedException ex) {
                         System.out.println("ergsergrgwergwrgwergwerg");
                         Logger.getLogger(DeskChessFrame.class.getName()).log(Level.SEVERE, null, ex);
