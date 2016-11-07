@@ -4,15 +4,11 @@
  * and open the template in the editor.
  */
 package poo_chess.controller;
-import exception.MovimentoInvalidoInterrupt;
-import exception.MovimentoJogador;
-import java.sql.Time;
+import exception.InvalidMovementException;
+import exception.InvalidPlayerException;
 import java.util.List;
 import poo_chess.Color;
-import java.util.Scanner;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javax.swing.JOptionPane;
+
 import poo_chess.ChessSing;
 import poo_chess.controller.field.Board;
 import poo_chess.Position;
@@ -27,9 +23,8 @@ public class Chess implements java.io.Serializable {
     private final Player player1;
     private final Player player2;
     private final Board board;
-//    private DeskChessFrame view;
-    private String str1, str="", stri , error = "\n Invalid position selected", Checkmate, resposta1, resposta2;
-    private int counter, logState; 
+    private String str1, str = "", stri, Checkmate;
+    private int logState; 
     private Piece selectedPiece;
     private Player currPlayer;
     private Player advPlayer;
@@ -37,22 +32,10 @@ public class Chess implements java.io.Serializable {
     private List<Position> movablePos;
     private boolean isPieceSelected;
     
-    public Chess(Board board){
+    public Chess(Board board){                        
         this.board = board;
-        //this.player1 = new Player(this.setPlayerName(1), "up", Color.BLACK, board);
-        resposta1 = JOptionPane.showInputDialog(null,"Informe o nome do Jogador 1","Xadrez",JOptionPane.QUESTION_MESSAGE);
-        if(resposta1 == null || resposta1 == "")
-            resposta1 = "Jogador 1";
-        this.player1 = new Player(resposta1,"up",Color.BLACK, board);
-        //this.player2 = new Player(this.setPlayerName(2), "down", Color.WHITE, board); 
-        resposta2 = JOptionPane.showInputDialog(null,"Informe o nome do Jogador 2","Xadrez",JOptionPane.QUESTION_MESSAGE);
-        if (resposta2 == null || resposta2 == ""){ 
-            resposta2 = "Jogador 2";
-            System.out.println("resposta = " + resposta2);
-        }
-        
-        this.player2 = new Player(resposta2,"down",Color.WHITE, board);
-        this.counter = 0;
+        this.player1 = new Player(ChessSing.getPlayerName(1), "up", Color.BLACK, board);
+        this.player2 = new Player(ChessSing.getPlayerName(2), "down", Color.WHITE, board);
         this.isPieceSelected = false;
         this.currPlayer = this.player1;
         this.advPlayer = this.player2;
@@ -62,7 +45,7 @@ public class Chess implements java.io.Serializable {
         logState = 1;
         try {
             selectedPiece = currPlayer.selectPiece(clickPos);
-        } catch (MovimentoJogador ex) {
+        } catch (InvalidPlayerException ex) {
             this.isPieceSelected = false;
             logState = 4;
             return;
@@ -79,7 +62,6 @@ public class Chess implements java.io.Serializable {
             str = (str + "\n" + i.toString());
         }
         
-        //str = str1 + "\n" +str;
         currPlayer.simulateMovement(selectedPiece, movablePos, advPlayer.getMyArmy());
                 
         this.isPieceSelected = true;
@@ -87,13 +69,10 @@ public class Chess implements java.io.Serializable {
         selectedPiece.setMovablePosHighlightValue(true);
     }
     
-//LUGAR PARA INSERIR INTERUPCAO
     public void selectGoToPosAndMove(Position clickGoToPos) {
         try {
             goToPos = currPlayer.selectGoToPos(selectedPiece, movablePos, clickGoToPos);
-            
-            counter++;
-            
+                        
             if(selectedPiece.getSquare().getMyPosition().equals(currPlayer.getKingPos())){
                 currPlayer.setKingPos(goToPos);
             }
@@ -115,9 +94,7 @@ public class Chess implements java.io.Serializable {
                 logState = 3;
                 
             }         
-        } catch (MovimentoInvalidoInterrupt ex) {
-            System.out.printf(error);
-            //view.logArea(error);
+        } catch (InvalidMovementException ex) {
             logState = 2;        
         }
 
@@ -130,28 +107,18 @@ public class Chess implements java.io.Serializable {
                 stri = str1 + str;
                 break;
             case 2:
-                stri = new MovimentoInvalidoInterrupt().getMessage();
+                stri = new InvalidMovementException().getMessage();
                 break;
             case 3:
                 stri = Checkmate;
                 break;
             case 4:
-                stri = new MovimentoJogador().getMessage();
+                stri = new InvalidPlayerException().getMessage();
             default:
                 break;
         }
         return stri;
     }
-    
-    //Inserir nome
-   /*
-    private String setPlayerName(int i){
-        
-        Scanner reader = new Scanner(System.in);
-        
-        System.out.println("\n\n Type the name of player " + i + ": ");
-        return reader.nextLine();
-    }*/
     
     public boolean isPieceSelected() {
         return this.isPieceSelected;

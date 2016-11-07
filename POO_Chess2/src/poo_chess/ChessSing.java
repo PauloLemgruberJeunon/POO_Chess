@@ -5,7 +5,7 @@
  */
 package poo_chess;
 
-import java.util.List;
+import javax.swing.JOptionPane;
 import poo_chess.View.BoardUpdater;
 import poo_chess.View.DeskChessFrame;
 import poo_chess.View.SettingsFrame;
@@ -17,11 +17,11 @@ import poo_chess.controller.field.Board;
  *
  * @author paulojeunon
  */
-public class ChessSing {        
-        
+public class ChessSing {                    
+    
     private final static Controller controller = new Controller();
     private static Chess chess = new Chess(new Board()); 
-    private static BoardUpdater boardUpdater = new BoardUpdater(chess.board());
+    private static final BoardUpdater boardUpdater = new BoardUpdater(chess.board());
     private final static DeskChessFrame chessView  = new DeskChessFrame(boardUpdater);
     private final static SettingsFrame settingsView = new SettingsFrame();
     private static long autoSaveTime = 15000;
@@ -34,7 +34,7 @@ public class ChessSing {
                     try {
                         Thread.sleep(autoSaveTime);
                     } catch (InterruptedException e) {
-                        e.printStackTrace();
+                        break;
                     }
                 }
             }
@@ -74,5 +74,14 @@ public class ChessSing {
     
     public static void isCheck(boolean check, boolean checkMate) {
         chessView.isCheck(check, checkMate);        
+    }
+    
+    public static String getPlayerName(int playerNum) {
+        String answer = JOptionPane.showInputDialog(null,"Informe o nome do Jogador 1","Xadrez",JOptionPane.QUESTION_MESSAGE);
+        if(answer == null || "".equals(answer) || " ".equals(answer)) {
+            answer = "Jogador " + playerNum;
+        }
+        
+        return answer;
     }
 }

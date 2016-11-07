@@ -9,15 +9,17 @@ package exception;
  *
  * @author KOUAO JEAN VINCENT M
  */
-public class MovimentoInvalidoInterrupt extends Exception{
-    private String message ="Invalid Position";
-    public MovimentoInvalidoInterrupt(){
+public class InvalidMovementException extends Exception {
+    
+    private final String message = "Invalid Position";
+    
+    public InvalidMovementException() {
         System.out.println("Invalid Position");
     }
-    public String getMessage(){
+    
+    @Override
+    public String getMessage() {
         return message;
     } 
-    
-    
     
 }

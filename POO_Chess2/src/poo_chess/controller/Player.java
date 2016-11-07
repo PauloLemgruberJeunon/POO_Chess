@@ -23,7 +23,7 @@ public class Player implements java.io.Serializable {
     private final String name;
     private Position myKingPos;
     private final List<Piece> myArmy;
-    private MovimentoInvalidoInterrupt v;
+    private InvalidMovementException v;
     
     public Player(String name, String side, Color color, Board board){
         this.name = name;
@@ -46,23 +46,23 @@ public class Player implements java.io.Serializable {
         return this.name;
     }
     
-    protected Piece selectPiece(Position clickPos) throws MovimentoJogador{
+    protected Piece selectPiece(Position clickPos) throws InvalidPlayerException{
         
         Piece pieceAbove;
         pieceAbove = board.getSquare(clickPos).getPieceAbovaMe();
         if(clickPos.getIsValid() == false || pieceAbove == null || pieceAbove.getColor() != this.color){
-            throw new MovimentoJogador();
+            throw new InvalidPlayerException();
         } else {
             pieceAbove.refreshMovablePositions(board);
         }
         return pieceAbove;
     }
     
-    protected Position selectGoToPos(Piece piece, List<Position> movablePos, Position clickGoToPos) throws MovimentoInvalidoInterrupt{
+    protected Position selectGoToPos(Piece piece, List<Position> movablePos, Position clickGoToPos) throws InvalidMovementException{
        
             if((clickGoToPos.getIsValid() && movablePos.contains(clickGoToPos)) == false){
                 piece.setMovablePosHighlightValue(false);
-                throw new MovimentoInvalidoInterrupt();
+                throw new InvalidMovementException();
         }
         
         return clickGoToPos;

@@ -9,13 +9,17 @@ package exception;
  *
  * @author KOUAO JEAN VINCENT M
  */
-public class MovimentoJogador extends Exception{
-    private String message = "Invalid Player";
-    public MovimentoJogador(){
+public class InvalidPlayerException extends Exception {
+    
+    private final String message = "Invalid Player";
+    
+    public InvalidPlayerException() {
         System.out.println(message);
         
     }
-    public String getMessage(){
+    
+    @Override
+    public String getMessage() {
         return message;
     }
     
