@@ -14,8 +14,7 @@ public class InvalidPlayerException extends Exception {
     private final String message = "Invalid Player";
     
     public InvalidPlayerException() {
-        System.out.println(message);
-        
+        System.out.println(message);        
     }
     
     @Override
