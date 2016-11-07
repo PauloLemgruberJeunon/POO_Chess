@@ -39,7 +39,7 @@ public class Controller implements MouseListener, MouseMotionListener, ActionLis
     private DeskChessFrame view;
     private Point mouseCoord;
     private Chess chess;
-    private String str , s;
+    private String s;
     private boolean firstMoveDone = false;
     
     public Controller() {
@@ -86,11 +86,9 @@ public class Controller implements MouseListener, MouseMotionListener, ActionLis
             this.chess = (Chess) in.readObject();
             in.close();
             fileIn.close();
-         }catch(IOException i) {
+         }catch(IOException | ClassNotFoundException i) {
             i.printStackTrace();
-         }catch(ClassNotFoundException c) {
-            c.printStackTrace();
-        }
+         }
         
         ChessSing.updateChess(chess);
     }
@@ -101,8 +99,8 @@ public class Controller implements MouseListener, MouseMotionListener, ActionLis
         int width = view.getBoardPanel().getWidth()/8;
         int height = view.getBoardPanel().getHeight()/8;
         
-        int squareWidth = g.getClip().getBounds().width / 8;
-        int squareHeight = g.getClip().getBounds().height / 8;
+        int squareWidth = g.getClip().getBounds().width/8;
+        int squareHeight = g.getClip().getBounds().height/8;
         
         g.setColor(Color.black);
         g.setStroke(new BasicStroke(4));

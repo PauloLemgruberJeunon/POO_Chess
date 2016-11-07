@@ -3,16 +3,15 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
+
 package poo_chess.controller;
 import exception.InvalidMovementException;
 import exception.InvalidPlayerException;
 import java.util.List;
 import poo_chess.Color;
-
 import poo_chess.ChessSing;
 import poo_chess.controller.field.Board;
 import poo_chess.Position;
-//import poo_chess.View.*;
 
 /**
  *

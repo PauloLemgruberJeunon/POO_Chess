@@ -19,12 +19,12 @@ import poo_chess.controller.field.Board;
  */
 public class ChessSing {                    
     
-    private final static Controller controller = new Controller();
-    private static Chess chess = new Chess(new Board()); 
-    private static final BoardUpdater boardUpdater = new BoardUpdater(chess.board());
-    private final static DeskChessFrame chessView  = new DeskChessFrame(boardUpdater);
-    private final static SettingsFrame settingsView = new SettingsFrame();
-    private static long autoSaveTime = 15000;
+    private static Controller controller;
+    private static Chess chess; 
+    private static BoardUpdater boardUpdater;
+    private static DeskChessFrame chessView;
+    private static SettingsFrame settingsView;
+    private static long autoSaveTime;
     
     private final static Thread autoSave = new Thread(new Runnable() {
             @Override
@@ -42,7 +42,25 @@ public class ChessSing {
     
     private static final ChessSing chessSing = new ChessSing();
     
-    private ChessSing() {
+    private ChessSing() {                
+        
+        controller = new Controller();        
+        settingsView = new SettingsFrame();
+        autoSaveTime = 15000;
+        
+        String message = "'y' to load and 'n' to start a new game";
+        String loadAnswer = JOptionPane.showInputDialog(null, message, "Chess game", JOptionPane.QUESTION_MESSAGE);
+        
+        if(loadAnswer != null && "y".equals(loadAnswer)) {
+            boardUpdater = new BoardUpdater(null);
+            controller.load();
+        } else {
+            chess = new Chess(new Board());
+            boardUpdater = new BoardUpdater(chess.board());
+        }
+                
+        chessView = new DeskChessFrame(boardUpdater);
+        
         controller.addView(chessView);
         controller.addLogicalChess(chess);
         chessView.addController(controller);
@@ -77,9 +95,9 @@ public class ChessSing {
     }
     
     public static String getPlayerName(int playerNum) {
-        String answer = JOptionPane.showInputDialog(null,"Informe o nome do Jogador 1","Xadrez",JOptionPane.QUESTION_MESSAGE);
+        String answer = JOptionPane.showInputDialog(null, "Enter with the name of the player", "Chess game", JOptionPane.QUESTION_MESSAGE);
         if(answer == null || "".equals(answer) || " ".equals(answer)) {
-            answer = "Jogador " + playerNum;
+            answer = "Player " + playerNum;
         }
         
         return answer;
