@@ -76,6 +76,7 @@ public final class Position implements java.io.Serializable{
     
     // Checks if the position exists
     private boolean thisPositionExists(){
+        //Fora da xadrez
         boolean verticalCoordinate;
         boolean horizontalCoordinate;
         

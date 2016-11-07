@@ -3,22 +3,21 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package poo_chess.controller;
+package exception;
 
 /**
  *
  * @author KOUAO JEAN VINCENT M
  */
 public class MovimentoInvalidoInterrupt extends Exception{
-    private Piece peca;
-    
-    MovimentoInvalidoInterrupt(Piece peca){
-        this.peca = peca;
+    private String message ="Invalid Position";
+    public MovimentoInvalidoInterrupt(){
+        System.out.println("Invalid Position");
     }
+    public String getMessage(){
+        return message;
+    } 
     
-    Piece getPeca(){
-        return this.peca;
-    }
     
     
 }

@@ -4,6 +4,7 @@
  * and open the template in the editor.
  */
 package poo_chess.controller;
+import exception.*;
 import java.util.*;
 import poo_chess.ChessSing;
 import poo_chess.Color;
@@ -15,13 +16,14 @@ import poo_chess.controller.field.Square;
  *
  * @author paulojeunon
  */
-public class Player implements java.io.Serializable{
+public class Player implements java.io.Serializable {
     private final Color color;
     private final String side;
     private final Board board;
     private final String name;
     private Position myKingPos;
     private final List<Piece> myArmy;
+    private MovimentoInvalidoInterrupt v;
     
     public Player(String name, String side, Color color, Board board){
         this.name = name;
@@ -44,22 +46,23 @@ public class Player implements java.io.Serializable{
         return this.name;
     }
     
-    protected Piece selectPiece(Position clickPos){
+    protected Piece selectPiece(Position clickPos) throws MovimentoJogador{
         
         Piece pieceAbove;
         pieceAbove = board.getSquare(clickPos).getPieceAbovaMe();
         if(clickPos.getIsValid() == false || pieceAbove == null || pieceAbove.getColor() != this.color){
-            return null;
+            throw new MovimentoJogador();
         } else {
             pieceAbove.refreshMovablePositions(board);
         }
         return pieceAbove;
     }
     
-    protected Position selectGoToPos(Piece piece, List<Position> movablePos, Position clickGoToPos){
-        if((clickGoToPos.getIsValid() && movablePos.contains(clickGoToPos)) == false){
-            piece.setMovablePosHighlightValue(false);
-            return null;
+    protected Position selectGoToPos(Piece piece, List<Position> movablePos, Position clickGoToPos) throws MovimentoInvalidoInterrupt{
+       
+            if((clickGoToPos.getIsValid() && movablePos.contains(clickGoToPos)) == false){
+                piece.setMovablePosHighlightValue(false);
+                throw new MovimentoInvalidoInterrupt();
         }
         
         return clickGoToPos;
