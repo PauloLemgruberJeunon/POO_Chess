@@ -48,10 +48,11 @@ public class ChessSing {
         settingsView = new SettingsFrame();
         autoSaveTime = 15000;
         
-        String message = "'y' to load and 'n' to start a new game";
-        String loadAnswer = JOptionPane.showInputDialog(null, message, "Chess game", JOptionPane.QUESTION_MESSAGE);
+        String message = "Would you like to load a previus saved game?";
+        String buttons[] = {"Yes", "No"};
+        int loadAnswer = JOptionPane.showOptionDialog(null, message, "Chess", JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, null, buttons, buttons[0]);
         
-        if(loadAnswer != null && "y".equals(loadAnswer)) {
+        if(loadAnswer == 0) {
             boardUpdater = new BoardUpdater(null);
             controller.load();
         } else {

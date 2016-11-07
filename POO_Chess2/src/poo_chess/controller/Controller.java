@@ -28,6 +28,7 @@ import java.nio.file.Paths;
 import poo_chess.ChessSing;
 import poo_chess.View.DeskChessFrame;
 import poo_chess.Position;
+import poo_chess.controller.field.Board;
 
 /**
  *
@@ -80,15 +81,20 @@ public class Controller implements MouseListener, MouseMotionListener, ActionLis
     }
     
     public void load() {
-        try {
-            FileInputStream fileIn = new FileInputStream("save.ser");
-            ObjectInputStream in = new ObjectInputStream(fileIn);
-            this.chess = (Chess) in.readObject();
-            in.close();
-            fileIn.close();
-         }catch(IOException | ClassNotFoundException i) {
-            i.printStackTrace();
-         }
+        Path path = Paths.get("save.ser");
+        if(Files.exists(path) == false) {
+            this.chess = new Chess(new Board());
+        } else {
+            try {
+                FileInputStream fileIn = new FileInputStream("save.ser");
+                ObjectInputStream in = new ObjectInputStream(fileIn);
+                this.chess = (Chess) in.readObject();
+                in.close();
+                fileIn.close();
+            }catch(IOException | ClassNotFoundException i) {
+                i.printStackTrace();
+            }
+        }                
         
         ChessSing.updateChess(chess);
     }
