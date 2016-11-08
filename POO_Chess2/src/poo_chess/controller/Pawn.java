@@ -57,10 +57,14 @@ public class Pawn extends Piece implements java.io.Serializable{
         
         
          // This loop adds the possible foward positions for the Pawn to go
-        for(int i = 1; i < verticalMoves+1; i++){
+        for(int i = 1; i < verticalMoves+1; i++) {
             Position tmp = new Position((isUp? myVerticalPos - i : myVerticalPos + i), myHorizontalPos);
-            if(tmp.getIsValid() && board.getSquare(tmp).getPieceAbovaMe() == null){
-                tmpList.add(tmp);
+            if(tmp.getIsValid()) {
+                if(board.getSquare(tmp).getPieceAbovaMe() == null) {
+                    tmpList.add(tmp);
+                } else {
+                    break;
+                }
             }
         }
         
@@ -68,7 +72,7 @@ public class Pawn extends Piece implements java.io.Serializable{
         int newVerticalPos = isUp? myVerticalPos-1 : myVerticalPos+1;
         
         Position tmpTopRight = new Position(newVerticalPos, myHorizontalPos+1);
-        if(tmpTopRight.getIsValid()){
+        if(tmpTopRight.getIsValid()) {
             Piece topRightPiece = board.getSquare(tmpTopRight).getPieceAbovaMe();
             
             // The logic is, if this position is valid, if it does not contain a piece above it and
@@ -79,7 +83,7 @@ public class Pawn extends Piece implements java.io.Serializable{
         }
         
         Position tmpTopLeft = new Position(newVerticalPos, myHorizontalPos-1);
-        if(tmpTopLeft.getIsValid()){
+        if(tmpTopLeft.getIsValid()) {
             Piece topLeftPiece = board.getSquare(tmpTopLeft).getPieceAbovaMe();
             
             // The same thing as above, but for the left side in this case

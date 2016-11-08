@@ -131,4 +131,12 @@ public class Chess implements java.io.Serializable {
         return currPlayer;
     }
     
+    public String getPlayerName(int playerNum) {
+        if(playerNum == 1) {
+            return this.player1.getName();
+        } else {
+            return this.player2.getName();
+        }
+    }
+    
 }

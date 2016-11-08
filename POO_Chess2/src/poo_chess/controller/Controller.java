@@ -38,7 +38,7 @@ import poo_chess.controller.field.Board;
 public class Controller implements MouseListener, MouseMotionListener, ActionListener{
 
     private DeskChessFrame view;
-    private Point mouseCoord;
+    private final Point mouseCoord;
     private Chess chess;
     private String s;
     private boolean firstMoveDone = false;
